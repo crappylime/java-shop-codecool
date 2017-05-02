@@ -4,6 +4,9 @@ import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +31,13 @@ public class ProductDaoSqlite implements ProductDao {
 
     @Override
     public List<Product> getAll() {
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:sqlite:src/main/resources/database.db");
+        } catch(SQLException e) {
+            System.out.println("Connect to DB failed");
+            System.out.println(e.getMessage());
+        }
+
         List<Product> products = new ArrayList<Product>();
         ProductCategory category = new ProductCategory("Category", "Department", "Description");
         Supplier supplier = new Supplier("Supplier", "Description");
