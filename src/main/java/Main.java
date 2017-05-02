@@ -1,4 +1,5 @@
 import com.codecool.shop.controller.ProductController;
+import com.codecool.shop.dao.SqliteJDBCConnector;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,7 +11,7 @@ public class Main {
     public static void main(String[] args) {
         if(args.length > 0 && args[0].equals("--create-tables")) {
             try {
-                Connection connection = DriverManager.getConnection("jdbc:sqlite:src/main/resources/database.db");
+                Connection connection = SqliteJDBCConnector.connection();
                 Statement statement = connection.createStatement();
                 statement.executeQuery("CREATE TABLE IF NOT EXISTS products\n" +
                         "(\n" +
