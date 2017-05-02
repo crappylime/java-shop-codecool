@@ -11,16 +11,10 @@ public class Main {
     public static void main(String[] args) {
         if(args.length > 0 && args[0].equals("--create-tables")) {
             try {
-                Connection connection = SqliteJDBCConnector.connection();
-                Statement statement = connection.createStatement();
-                statement.executeQuery("CREATE TABLE IF NOT EXISTS products\n" +
-                        "(\n" +
-                        "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                        "    name VARCHAR NOT NULL,\n" +
-                        "    description TEXT,\n" +
-                        "    price DOUBLE DEFAULT 0.00 NOT NULL\n" +
-                        ")");
+                SqliteJDBCConnector.createTables();
             } catch (SQLException e) {
+                System.out.println("Cannot create tables in DB");
+                System.out.println(e);
             }
         }
 
