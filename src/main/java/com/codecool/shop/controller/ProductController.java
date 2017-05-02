@@ -8,11 +8,11 @@ import com.codecool.shop.view.ProductView;
 import java.util.List;
 
 public class ProductController {
+    private ProductDao productDao = new ProductDaoSqlite();
+    private ProductView view = new ProductView();
 
     public void listProducts() {
-        ProductDao productDao = new ProductDaoSqlite();
         List<Product> products = productDao.getAll();
-        ProductView view = new ProductView();
         view.displayProductsList(products);
     }
 
