@@ -16,4 +16,8 @@ public class ProductController {
         view.displayProductsList(products);
     }
 
+    public void listProductsByCategory() {
+        System.out.println("Products by Category");
+    }
+
 }
