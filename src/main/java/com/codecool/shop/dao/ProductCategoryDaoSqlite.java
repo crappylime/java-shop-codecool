@@ -13,7 +13,7 @@ public class ProductCategoryDaoSqlite implements ProductCategoryDao {
 
     @Override
     public ProductCategory find(int id) {
-        return null;
+        return new ProductCategory("Category", "Department", "Description");
     }
 
     @Override
