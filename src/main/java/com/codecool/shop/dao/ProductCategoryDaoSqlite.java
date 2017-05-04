@@ -18,7 +18,28 @@ public class ProductCategoryDaoSqlite implements ProductCategoryDao {
 
     @Override
     public ProductCategory find(int id) {
-        return new ProductCategory("Category", "Department", "Description");
+        ProductCategory category = null;
+
+        try {
+            Connection connection = SqliteJDBCConnector.connection();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("select * from categories where id = " + Integer.toString(id));
+
+            if(rs.next()) {
+                category = new ProductCategory(
+                        rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getString("department")
+                );
+                category.setId(rs.getInt("id"));
+            }
+
+        } catch(SQLException e) {
+            System.out.println("Connect to DB failed");
+            System.out.println(e.getMessage());
+        }
+
+        return category;
     }
 
     @Override
