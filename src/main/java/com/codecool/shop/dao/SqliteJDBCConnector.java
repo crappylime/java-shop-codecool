@@ -29,6 +29,14 @@ public class SqliteJDBCConnector {
             "    description TEXT,\n" +
             "    price DOUBLE DEFAULT 0.00 NOT NULL\n" +
             ")");
+
+        statement.execute("CREATE TABLE IF NOT EXISTS categories\n" +
+                "(\n" +
+                "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                "    name VARCHAR(255) NOT NULL,\n" +
+                "    description TEXT NOT NULL,\n" +
+                "    department VARCHAR(255) NOT NULL\n" +
+                ");");
     }
 
 }
