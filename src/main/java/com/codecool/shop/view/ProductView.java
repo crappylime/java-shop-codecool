@@ -16,7 +16,7 @@ public class ProductView {
     public void displayCategoriesList(List<ProductCategory> categories) {
         System.out.println("Categories list");
         for(ProductCategory category: categories) {
-            System.out.println(category.getName());
+            System.out.println(category.getId() + ") " + category.getName());
         }
     }
 
