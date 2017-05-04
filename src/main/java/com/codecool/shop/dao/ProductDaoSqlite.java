@@ -70,17 +70,24 @@ public class ProductDaoSqlite implements ProductDao {
         List<Product> products = new ArrayList<Product>();
         Supplier supplier = new Supplier("Supplier", "Description");
 
-        for(int i=1; i<=3; i++) {
-            String name = "Product " + Integer.toString(i);
-            Product product = new Product(
-                    name,
-                    12.50f,
-                    "PLN",
-                    "Description",
-                    productCategory,
-                    supplier
-            );
-            products.add(product);
+        try {
+            Connection connection = SqliteJDBCConnector.connection();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("select * from products where category_id = " + Integer.toString(productCategory.getId()));
+            while(rs.next()) {
+                Product product = new Product(
+                        rs.getString("name"),
+                        rs.getFloat("price"),
+                        "PLN",
+                        rs.getString("description"),
+                        productCategory,
+                        supplier
+                );
+                products.add(product);
+            }
+        } catch(SQLException e) {
+            System.out.println("Connect to DB failed");
+            System.out.println(e.getMessage());
         }
 
         return products;
