@@ -92,6 +92,7 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
                     category,
                     supplier
             );
+            product.setId(rs.getInt("id"));
             products.add(product);
         }
 
