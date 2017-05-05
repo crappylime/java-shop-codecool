@@ -24,7 +24,17 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
 
     @Override
     public Product find(int id) {
-        return null;
+        Supplier supplier = new Supplier("Supplier", "Description");
+        ProductCategory category = new ProductCategory("Category", "Department", "Description");
+
+        return new Product(
+                "Product name",
+                12.00f,
+                "PLN",
+                "Description",
+                category,
+                supplier
+        );
     }
 
     @Override
