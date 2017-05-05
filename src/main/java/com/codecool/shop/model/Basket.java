@@ -9,7 +9,7 @@ public class Basket {
     public void add(Product product, Integer quantity) {
         boolean productExists = false;
         for(BasketItem item: this.getItems()) {
-            if(item.getProduct().equals(product)) {
+            if(item.getProduct().getId() == product.getId()) {
                 item.setQuantity(item.getQuantity() + quantity);
                 productExists = true;
             }
@@ -27,5 +27,13 @@ public class Basket {
 
     public void setItems(List<BasketItem> items) {
         this.items = items;
+    }
+
+    public Integer getTotalCount() {
+        Integer count = 0;
+        for(BasketItem item: this.getItems()) {
+            count += item.getQuantity();
+        }
+        return count;
     }
 }

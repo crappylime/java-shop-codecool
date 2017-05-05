@@ -27,7 +27,7 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
         Supplier supplier = new Supplier("Supplier", "Description");
         ProductCategory category = new ProductCategory("Category", "Department", "Description");
 
-        return new Product(
+        Product p = new Product(
                 "Product name",
                 12.00f,
                 "PLN",
@@ -35,6 +35,8 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
                 category,
                 supplier
         );
+        p.setId(id);
+        return p;
     }
 
     @Override

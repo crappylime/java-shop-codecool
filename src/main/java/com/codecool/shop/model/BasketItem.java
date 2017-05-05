@@ -1,10 +1,11 @@
 package com.codecool.shop.model;
 
-public class BasketItem {
+public class BasketItem extends BaseModel {
     private Product product;
     private Integer quantity;
 
     BasketItem(Product product, Integer quantity) {
+        super("", "");
         this.setProduct(product);
         this.setQuantity(quantity);
     }
