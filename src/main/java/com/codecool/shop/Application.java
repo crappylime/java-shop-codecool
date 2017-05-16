@@ -1,5 +1,6 @@
 package com.codecool.shop;
 
+import com.codecool.shop.ShutdownHook.ShutdownHook;
 import spark.Request;
 import spark.Response;
 
@@ -91,6 +92,10 @@ public class Application {
             e.printStackTrace();
         }
         return sb.toString();
+    }
+
+    public static Connection getConnection() {
+        return connection;
     }
 
     private void routes() {
