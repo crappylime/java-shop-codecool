@@ -27,10 +27,10 @@ public class Application {
             if (Objects.equals(args[0], "--init-db")) {
                 System.out.println(args[0]);
                 dropTables();
-//                createTables();
+                createTables();
             } else if (Objects.equals(args[0], "--migrate-db")) {
                 System.out.println(args[0]);
-//                createTables();
+                createTables();
             }
             exception(Exception.class, (e, req, res) -> e.printStackTrace());
             staticFileLocation("/public");
@@ -59,6 +59,31 @@ public class Application {
         for (String table: tables) {
             statement.execute("DROP TABLE '" + table + "'");
         }
+    }
+    
+    private void createTables() throws SQLException {
+        Statement statement = connection.createStatement();
+        statement.execute(prepareQuery("products.sql"));
+        statement.execute(prepareQuery("categories.sql"));
+        statement.execute(prepareQuery("suppliers.sql"));
+    }
+
+    private String prepareQuery(String fileName) {
+        StringBuilder sb = new StringBuilder();
+        try{
+            BufferedReader bufferedReader = new BufferedReader(
+                    new FileReader("src/main/resources/sql/" + fileName)
+            );
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                sb.append(line);
+            }
+        } catch (FileNotFoundException e){
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return sb.toString();
     }
 
     private void routes() {
