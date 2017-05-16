@@ -8,6 +8,8 @@ import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.view.ProductView;
 import com.codecool.shop.view.UserInput;
+import spark.ModelAndView;
+import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,12 @@ public class ProductController {
     private ProductDao productDao = new ProductDaoSqlite();
     private ProductCategoryDao productCategoryDao = new ProductCategoryDaoSqlite();
     private ProductView view = new ProductView();
+
+    public static String render(ModelAndView modelAndView){
+        String rendered = new ThymeleafTemplateEngine().render(modelAndView);
+
+        return rendered;
+    }
 
     public void listProducts() {
         List<Product> products = productDao.getAll();
