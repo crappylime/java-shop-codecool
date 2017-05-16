@@ -25,12 +25,10 @@ public class Application {
             this.connectToDb();
             app=this;
             if (Objects.equals(args[0], "--init-db")) {
-                System.out.println(args[0]);
                 dropTables();
                 createTables();
                 fillTables();
             } else if (Objects.equals(args[0], "--migrate-db")) {
-                System.out.println(args[0]);
                 createTables();
                 fillTables();
             }
