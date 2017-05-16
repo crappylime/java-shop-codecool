@@ -1,10 +1,13 @@
 package com.codecool.shop;
 
-import com.codecool.shop.controller.MainMenuController;
+import spark.Request;
+import spark.Response;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
+import static spark.Spark.*;
 
 public class Application {
     private static Connection connection;
@@ -16,7 +19,10 @@ public class Application {
         try {
             this.connectToDb();
             app=this;
-            this.dispatchMainMenuController();
+            exception(Exception.class, (e, req, res) -> e.printStackTrace());
+            staticFileLocation("/public");
+            port(8888);
+            routes();
         } catch (SQLException e) {
             System.out.println("Application initialization failed...");
             e.printStackTrace();
@@ -28,8 +34,9 @@ public class Application {
         this.connection = DriverManager.getConnection("jdbc:sqlite:src/main/resources/database.db");
     }
 
-    private void dispatchMainMenuController() {
-        MainMenuController mainMenuController = new MainMenuController();
-        mainMenuController.mainMenuAction();
+    private void routes() {
+        get("/", (Request req, Response res) -> {
+            return "hello world";
+        });
     }
 }
