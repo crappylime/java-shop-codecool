@@ -14,16 +14,10 @@ import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductController {
+public class ProductController extends BaseController{
     private ProductDao productDao = new ProductDaoSqlite();
     private ProductCategoryDao productCategoryDao = new ProductCategoryDaoSqlite();
     private ProductView view = new ProductView();
-
-    public static String render(ModelAndView modelAndView){
-        String rendered = new ThymeleafTemplateEngine().render(modelAndView);
-
-        return rendered;
-    }
 
     public void listProducts() {
         List<Product> products = productDao.getAll();

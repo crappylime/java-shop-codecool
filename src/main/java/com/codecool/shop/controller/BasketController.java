@@ -10,7 +10,7 @@ import com.codecool.shop.view.UserInput;
 
 import java.util.List;
 
-public class BasketController {
+public class BasketController extends BaseController{
     ProductDao productDao = new ProductDaoSqlite();
     ProductView productView = new ProductView();
     BasketView basketView = new BasketView();
