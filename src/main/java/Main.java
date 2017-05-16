@@ -1,5 +1,4 @@
 import com.codecool.shop.Application;
-import com.codecool.shop.controller.MainMenuController;
 import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.dao.SqliteJDBCConnector;
 
