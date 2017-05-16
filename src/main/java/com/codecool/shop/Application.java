@@ -1,5 +1,7 @@
 package com.codecool.shop;
 
+import com.codecool.shop.controller.ProductController;
+import com.codecool.shop.model.ProductCategory;
 import spark.Request;
 import spark.Response;
 
@@ -12,6 +14,7 @@ import static spark.Spark.*;
 public class Application {
     private static Connection connection;
     private static Application app;
+    private ProductController productController = new ProductController();
 
     public Application() {
         System.out.println("Initializing application...");
@@ -38,5 +41,7 @@ public class Application {
         get("/", (Request req, Response res) -> {
             return "hello world";
         });
+
+        get("/products", productController::showProducts);
     }
 }
