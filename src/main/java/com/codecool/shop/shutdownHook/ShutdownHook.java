@@ -1,12 +1,8 @@
-package com.codecool.shop.ShutdownHook;
+package com.codecool.shop.shutdownHook;
 
 import com.codecool.shop.Application;
 
 import java.sql.SQLException;
-
-/**
- * Created by ihni on 16.05.17.
- */
 
 public class ShutdownHook extends Thread {
 
@@ -21,5 +17,3 @@ public class ShutdownHook extends Thread {
         }
     }
 }
-
-

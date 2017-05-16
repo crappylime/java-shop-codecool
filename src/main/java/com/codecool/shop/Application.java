@@ -1,6 +1,6 @@
 package com.codecool.shop;
 
-import com.codecool.shop.ShutdownHook.ShutdownHook;
+import com.codecool.shop.shutdownHook.ShutdownHook;
 import spark.Request;
 import spark.Response;
 
