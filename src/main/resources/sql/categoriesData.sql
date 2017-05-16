@@ -1,0 +1,1 @@
+INSERT INTO categories (name, description, department) VALUES ('Cat', 'CatDESC', 'CatDEP')
