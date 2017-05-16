@@ -21,6 +21,7 @@ public class Application {
 
     public Application(String[] args) {
         System.out.println("Initializing application...");
+        Runtime.getRuntime().addShutdownHook(new ShutdownHook());
 
         try {
             this.connectToDb();
