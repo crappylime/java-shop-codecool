@@ -28,9 +28,11 @@ public class Application {
                 System.out.println(args[0]);
                 dropTables();
                 createTables();
+                fillTables();
             } else if (Objects.equals(args[0], "--migrate-db")) {
                 System.out.println(args[0]);
                 createTables();
+                fillTables();
             }
             exception(Exception.class, (e, req, res) -> e.printStackTrace());
             staticFileLocation("/public");
@@ -66,6 +68,13 @@ public class Application {
         statement.execute(prepareQuery("products.sql"));
         statement.execute(prepareQuery("categories.sql"));
         statement.execute(prepareQuery("suppliers.sql"));
+    }
+
+    private void fillTables() throws SQLException {
+        Statement statement = connection.createStatement();
+        statement.execute(prepareQuery("productsData.sql"));
+        statement.execute(prepareQuery("categoriesData.sql"));
+        statement.execute(prepareQuery("suppliersData.sql"));
     }
 
     private String prepareQuery(String fileName) {
