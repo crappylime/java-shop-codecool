@@ -7,13 +7,15 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Application {
-    private Connection connection;
+    private static Connection connection;
+    private static Application app;
 
     public Application() {
         System.out.println("Initializing application...");
 
         try {
             this.connectToDb();
+            app=this;
             this.dispatchMainMenuController();
         } catch (SQLException e) {
             System.out.println("Application initialization failed...");
