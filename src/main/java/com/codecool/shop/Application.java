@@ -1,5 +1,6 @@
 package com.codecool.shop;
 
+import com.codecool.shop.controller.BasketController;
 import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.shutdownHook.ShutdownHook;
 import com.codecool.shop.controller.ProductController;
@@ -23,6 +24,7 @@ public class Application {
     private Connection connection;
     private static Application app;
     private ProductController productController = new ProductController();
+    private BasketController basketController = new BasketController();
 
     private Application() {
         try {
@@ -133,7 +135,7 @@ public class Application {
         get("/", (Request req, Response res) -> {
             return "hello world";
         });
-        get("/products/:id/add_to_cart", productController::addToCard);
+        post("/products/:id/add_to_cart", basketController::addToCart);
 
         get("/products", productController::showProducts);
     }

@@ -7,6 +7,8 @@ import com.codecool.shop.model.Product;
 import com.codecool.shop.view.BasketView;
 import com.codecool.shop.view.ProductView;
 import com.codecool.shop.view.UserInput;
+import spark.Request;
+import spark.Response;
 
 import java.util.List;
 
@@ -16,14 +18,16 @@ public class BasketController extends BaseController{
     BasketView basketView = new BasketView();
     Basket basket = new Basket();
 
-    public void addToCartAction() {
-        List<Product> products = this.productDao.getAll();
-        this.productView.displayProductsList(products);
-
-        System.out.print("Select product by giving id: ");
-        Integer productId = UserInput.getUserInput();
-        Product product = productDao.find(productId);
-        this.basket.add(product, 1);
-        this.basketView.displayBasketItems(this.basket.getItems());
+    public String addToCart(Request req, Response res) {
+        Integer productId = Integer.valueOf(req.params(":id"));
+        Product productToAdd = productDao.find(productId);
+        Integer quantity = req.queryMap("amount").integerValue();
+        Basket basket = req.session().attribute("basket");
+        basket.add(productToAdd, quantity);
+        res.redirect("/products");   //TODO universal link
+        return null;
     }
+
+
+
 }

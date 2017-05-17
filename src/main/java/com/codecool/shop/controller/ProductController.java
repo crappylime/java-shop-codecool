@@ -47,15 +47,7 @@ public class ProductController extends BaseController{
         view.displayProductsList(products);
     }
 
-    public String addToCard(Request req, Response res) {
-        Integer productId = Integer.parseInt(req.params(":id"));
-        productId = 1;
-        Product productToAdd = productDao.find(productId);
-        Integer quantity = req.queryMap("quantity").integerValue();
-        quantity = 2;
-        Basket basket = req.session().attribute("basket");
-        basket.add(productToAdd, quantity);
-          res.redirect("/");
-        return null;
-    }
+
+
+
 }
