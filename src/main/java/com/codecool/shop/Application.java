@@ -138,5 +138,6 @@ public class Application {
         post("/products/:id/add_to_cart", basketController::addToCart);
 
         get("/products", productController::showProducts);
+        get("/basket", basketController::show);
     }
 }
