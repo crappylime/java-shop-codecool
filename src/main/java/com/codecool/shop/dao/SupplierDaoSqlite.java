@@ -10,10 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SupplierDaoSqlite extends BaseDao implements SupplierDao {
-    @Override
-    public void add(Supplier supplier) {
-
-    }
 
     @Override
     public Supplier find(int id) {
@@ -39,11 +35,6 @@ public class SupplierDaoSqlite extends BaseDao implements SupplierDao {
     }
 
     @Override
-    public void remove(int id) {
-
-    }
-
-    @Override
     public List<Supplier> getAll() {
         List<Supplier> suppliers = new ArrayList<>();
 
@@ -60,6 +51,7 @@ public class SupplierDaoSqlite extends BaseDao implements SupplierDao {
             }
         } catch(SQLException e) {
             System.out.println("Connect to DB failed");
+            System.out.println("Conne unnecessary");
             System.out.println(e.getMessage());
         }
         return suppliers;
