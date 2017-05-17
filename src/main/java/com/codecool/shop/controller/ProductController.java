@@ -6,7 +6,6 @@ import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.ProductDaoSqlite;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
-import com.codecool.shop.view.ProductView;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -18,7 +17,6 @@ import java.util.Map;
 public class ProductController extends BaseController {
     private ProductDao productDao = new ProductDaoSqlite();
     private ProductCategoryDao productCategoryDao = new ProductCategoryDaoSqlite();
-    private ProductView view = new ProductView();
 
     public String showProducts(Request req, Response res) {
         Map params = new HashMap<>();
