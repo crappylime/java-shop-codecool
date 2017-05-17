@@ -17,7 +17,8 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
     public void add(Product product) {
         try {
             PreparedStatement statement = getConnection().prepareStatement(
-                    "INSERT INTO products (id, name, description, default_price, currency, category_id, supplier_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                    "INSERT INTO products (id, name, description, default_price, currency, category_id, " +
+                            "supplier_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
             statement.setInt(1, product.getId());
             statement.setString(2, product.getName());
             statement.setString(3, product.getDescription());
@@ -78,8 +79,10 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
     @Override
     public List<Product> getBy(Supplier supplier) {
         List<Product> products = new ArrayList<>();
+
         try {
-            PreparedStatement statement = getConnection().prepareStatement("SELECT * FROM products WHERE supplier_id=(?)");
+            PreparedStatement statement = getConnection().
+                    prepareStatement("SELECT * FROM products WHERE supplier_id=(?)");
             statement.setInt(1, supplier.getId());
             products = getProducts(statement);
         } catch (SQLException e) {
@@ -89,10 +92,28 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
     }
 
     @Override
+    public List<Product> getBy(String name) {
+        List<Product> products = new ArrayList<>();
+
+        try {
+            PreparedStatement statement = getConnection().
+                    prepareStatement("SELECT * FROM products WHERE name LIKE (?)");
+            statement.setString(1, "%" + name + "%");
+            products = getProducts(statement);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return products;
+    }
+
+    @Override
     public List<Product> getBy(ProductCategory productCategory) {
         List<Product> products = new ArrayList<>();
+
         try {
-            PreparedStatement statement = getConnection().prepareStatement("SELECT * FROM products WHERE category_id=(?)");
+            PreparedStatement statement = getConnection().
+                    prepareStatement("SELECT * FROM products WHERE category_id=(?)");
             statement.setInt(1, productCategory.getId());
             products = getProducts(statement);
         } catch (SQLException e) {
