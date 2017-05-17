@@ -1,20 +1,22 @@
 package com.codecool.shop.dao;
 
+import com.codecool.shop.Application;
+
 import java.sql.Connection;
 
 abstract class BaseDao {
     private Connection connection;
 
-    public BaseDao() {
-        Connection connection = SqliteJDBCConnector.connection();
+    BaseDao() {
+        Connection connection = Application.getApp().getConnection();
         this.setConnection(connection);
     }
 
-    public void setConnection(Connection connection) {
+    private void setConnection(Connection connection) {
         this.connection = connection;
     }
 
-    public Connection getConnection() {
+    Connection getConnection() {
         return connection;
     }
 }
