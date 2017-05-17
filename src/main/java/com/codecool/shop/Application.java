@@ -1,8 +1,10 @@
 package com.codecool.shop;
 
+import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.shutdownHook.ShutdownHook;
 import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.model.Basket;
+
 import spark.Request;
 import spark.Response;
 
@@ -78,7 +80,7 @@ public class Application {
             statement.execute("DROP TABLE '" + table + "'");
         }
     }
-
+    
     private void createTables() throws SQLException {
         Statement statement = connection.createStatement();
         statement.execute(prepareQuery("products.sql"));
@@ -126,5 +128,7 @@ public class Application {
             return "hello world";
         });
         get("/products/:id/add_to_card", productController::addToCard);
+
+        get("/products", productController::showProducts);
     }
 }
