@@ -23,7 +23,7 @@ public class ProductController extends BaseController{
 
 
 
-    public String showProducts(Request req, Response res) {
+    public String show(Request req, Response res) {
         Map params = new HashMap<>();
 
         List<Product> products = productDao.getAll();
@@ -33,6 +33,18 @@ public class ProductController extends BaseController{
 
         return render(modelAndView);
     }
+
+    public String searchAction(Request req, Response res) {
+        Map params = new HashMap<>();
+
+        List<Product> products = productDao.getBy(req.queryParams("query"));
+        params.put("products", products);
+
+        ModelAndView modelAndView = new ModelAndView(params, "product/index");
+
+        return render(modelAndView);
+    }
+
 
     public void listProductsByCategory() {
         List<ProductCategory> categories = productCategoryDao.getAll();

@@ -126,6 +126,8 @@ public class Application {
             return "hello world";
         });
 
-        get("/products", productController::showProducts);
+        get("/products", productController::show);
+        get("/products/search", productController::searchAction);
+
     }
 }

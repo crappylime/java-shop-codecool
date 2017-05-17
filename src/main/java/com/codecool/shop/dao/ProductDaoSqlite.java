@@ -64,6 +64,23 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
     }
 
     @Override
+    public List<Product> getBy(String name) {
+
+        List<Product> products = new ArrayList<Product>();
+
+        try {
+            PreparedStatement statement = this.getConnection().
+                    prepareStatement("SELECT * FROM products WHERE name LIKE (?)");
+            statement.setString(1, "%" + name + "%");
+            products = this.getProducts(statement);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return products;
+    }
+
+    @Override
     public List<Product> getBy(ProductCategory productCategory) {
         List<Product> products = new ArrayList<Product>();
 
