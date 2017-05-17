@@ -12,6 +12,7 @@ import java.util.List;
 
 
 public class ProductDaoSqlite extends BaseDao implements ProductDao {
+
     @Override
     public void add(Product product) {
         try {
@@ -59,11 +60,6 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
             System.out.println(e.getMessage());
         }
         return product;
-    }
-
-    @Override
-    public void remove(int id) {
-
     }
 
     @Override
