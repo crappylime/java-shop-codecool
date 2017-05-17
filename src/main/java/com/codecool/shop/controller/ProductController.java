@@ -26,14 +26,8 @@ public class ProductController extends BaseController{
     public String showProducts(Request req, Response res) {
         Map params = new HashMap<>();
 
-        ProductCategory category = new ProductCategory("categoryName1",
-                "categoryDepartment1", "categoryDescription1");
-
         List<Product> products = productDao.getAll();
-        System.out.println(products);
-
         params.put("products", products);
-        params.put("category", category);
 
         ModelAndView modelAndView = new ModelAndView(params, "product/index");
 
