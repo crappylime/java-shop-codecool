@@ -16,31 +16,44 @@ import java.util.Objects;
 import static spark.Spark.*;
 
 public class Application {
-    private static Connection connection;
+    private Connection connection;
     private static Application app;
 
-    public Application(String[] args) {
+    private Application() {
+        try {
+            this.connectToDb();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Application initialization failed...");
+        }
+        app=this;
+    }
+
+    public static void run(String[] args) {
         System.out.println("Initializing application...");
         Runtime.getRuntime().addShutdownHook(new ShutdownHook());
 
-        try {
-            this.connectToDb();
-            app=this;
-            if (Objects.equals(args[0], "--init-db")) {
-                dropTables();
-                createTables();
-                fillTables();
-            } else if (Objects.equals(args[0], "--migrate-db")) {
-                createTables();
-                fillTables();
+        if (app == null) {
+            try {
+                new Application();
+                if (Objects.equals(args[0], "--init-db")) {
+                    app.dropTables();
+                    app.createTables();
+                    app.fillTables();
+                } else if (Objects.equals(args[0], "--migrate-db")) {
+                    app.createTables();
+                    app.fillTables();
+                }
+                exception(Exception.class, (e, req, res) -> e.printStackTrace());
+                staticFileLocation("/public");
+                port(8888);
+                app.routes();
+            } catch (SQLException e) {
+                System.out.println("Application initialization failed...");
+                e.printStackTrace();
             }
-            exception(Exception.class, (e, req, res) -> e.printStackTrace());
-            staticFileLocation("/public");
-            port(8888);
-            routes();
-        } catch (SQLException e) {
-            System.out.println("Application initialization failed...");
-            e.printStackTrace();
+        } else {
+            System.out.println("Application already running!");
         }
     }
 
@@ -95,8 +108,12 @@ public class Application {
         return sb.toString();
     }
 
-    public static Connection getConnection() {
+    public Connection getConnection() {
         return connection;
+    }
+
+    public static Application getApp() {
+        return app;
     }
 
     private void routes() {
