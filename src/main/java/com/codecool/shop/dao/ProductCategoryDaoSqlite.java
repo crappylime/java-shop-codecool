@@ -10,10 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductCategoryDaoSqlite extends BaseDao implements ProductCategoryDao  {
-    @Override
-    public void add(ProductCategory category) {
-
-    }
 
     @Override
     public ProductCategory find(int id) {
@@ -37,11 +33,6 @@ public class ProductCategoryDaoSqlite extends BaseDao implements ProductCategory
             System.out.println(e.getMessage());
         }
         return category;
-    }
-
-    @Override
-    public void remove(int id) {
-
     }
 
     @Override
