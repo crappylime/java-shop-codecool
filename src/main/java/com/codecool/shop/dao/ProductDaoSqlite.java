@@ -10,13 +10,26 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by przemek on 02.05.2017.
- */
+
 public class ProductDaoSqlite extends BaseDao implements ProductDao {
     @Override
     public void add(Product product) {
+        try {
+            PreparedStatement statement = getConnection().prepareStatement(
+                    "INSERT INTO products (id, name, description, default_price, currency, category_id, supplier_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            statement.setInt(1, product.getId());
+            statement.setString(2, product.getName());
+            statement.setString(3, product.getDescription());
+            statement.setFloat(4, product.getDefaultPrice());
+            statement.setString(5, product.getDefaultCurrency().getDisplayName());
+            statement.setInt(6, product.getProductCategory().getId());
+            statement.setInt(7, product.getSupplier().getId());
+            statement.executeUpdate();
 
+        } catch (SQLException e) {
+            System.out.println("Connect to DB failed");
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
