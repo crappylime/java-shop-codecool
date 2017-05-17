@@ -39,13 +39,15 @@ public class Application {
         if (app == null) {
             try {
                 new Application();
-                if (Objects.equals(args[0], "--init-db")) {
-                    app.dropTables();
-                    app.createTables();
-                    app.fillTables();
-                } else if (Objects.equals(args[0], "--migrate-db")) {
-                    app.createTables();
-                    app.fillTables();
+                if (args.length>0) {
+                    if (Objects.equals(args[0], "--init-db")) {
+                        app.dropTables();
+                        app.createTables();
+                        app.fillTables();
+                    } else if (Objects.equals(args[0], "--migrate-db")) {
+                        app.createTables();
+                        app.fillTables();
+                    }
                 }
                 exception(Exception.class, (e, req, res) -> e.printStackTrace());
                 staticFileLocation("/public");
