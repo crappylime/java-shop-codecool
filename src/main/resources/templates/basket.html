@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="basket">
+<div>Basket</div>
+<div th:text="'Products in basket '+${basket.getItems().size()}"></div>
+<div th:text="'Total quantity '+${basket.getTotalCount()}"></div>
+</div>
+</body>
+</html>
