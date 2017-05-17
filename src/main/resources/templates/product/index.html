@@ -42,7 +42,9 @@
                 <ul class="dropdown-menu" role="menu">
                     <li th:each="cat,iterStat : ${categories}">
                         <!--<a th:text="${cat.name}" th:href="@{/products(categoryId=${cat.id})}">Category Title</a>-->
-                        <a th:text="${cat.name}" href="#">Category Title</a>
+                        <form action="/products" method="get">
+                            <button th:text="${cat.name}" th:value="${cat.id}" name="category_id" type="submit">Category Title</button>
+                        </form>
                     </li>
                 </ul>
             </div>
