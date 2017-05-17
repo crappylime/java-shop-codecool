@@ -126,7 +126,7 @@ public class Application {
             return "hello world";
         });
 
-        get("/products", productController::show);
+        get("/products", productController::showList);
         get("/products/search", productController::searchAction);
 
     }

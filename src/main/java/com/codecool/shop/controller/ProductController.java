@@ -23,7 +23,7 @@ public class ProductController extends BaseController{
 
 
 
-    public String show(Request req, Response res) {
+    public String showList(Request req, Response res) {
         Map params = new HashMap<>();
 
         List<Product> products = productDao.getAll();
