@@ -37,10 +37,11 @@
     <div class="well well-sm">
         <strong th:if="${category}" th:text="${category.name}">Category Title</strong>
     </div>
-    <form id="search_box" action="/products/search">
-        <input type="text" name="query" placeholder="search for product"/>
+    <form id="search_box" action="/products/search" onsubmit="checkLength(this.href); return false">
+        <input type="text" name="query" id="searchbox" placeholder="search for product"/>
         <button type="submit">search</button>
         <a href="/products">show all</a>
+        <span id="length_error" style="display: none; color:red">Minimum 3 characters. Asshole!!!</span>
     </form><br/>
     <div id="products" class="row list-group">
 
@@ -69,6 +70,6 @@
 </div>
 
 <div th:replace="footer :: copy"></div>
-
+<script src="main.js"></script>
 </body>
 </html>
