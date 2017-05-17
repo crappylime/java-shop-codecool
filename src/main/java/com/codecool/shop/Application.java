@@ -20,7 +20,7 @@ import static spark.Spark.*;
 public class Application {
     private Connection connection;
     private static Application app;
-    private ProductController productController = new ProductController();
+    private ProductController productController;
 
     private Application() {
         try {
@@ -30,6 +30,7 @@ public class Application {
             System.out.println("Application initialization failed...");
         }
         app=this;
+        this.productController = new ProductController();
     }
 
     public static void run(String[] args) {
@@ -127,7 +128,6 @@ public class Application {
         });
 
         get("/products", productController::showList);
-        get("/products/search", productController::searchAction);
 
     }
 }
