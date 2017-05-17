@@ -125,6 +125,6 @@ public class Application {
         get("/", (Request req, Response res) -> {
             return "hello world";
         });
-        get("/product/:id/add_to_card", productController::addToCard);
+        get("/products/:id/add_to_card", productController::addToCard);
     }
 }
