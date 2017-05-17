@@ -1,5 +1,7 @@
 package com.codecool.shop;
 
+import com.codecool.shop.controller.ProductController;
+import com.codecool.shop.model.Basket;
 import spark.Request;
 import spark.Response;
 
@@ -12,6 +14,7 @@ import static spark.Spark.*;
 public class Application {
     private static Connection connection;
     private static Application app;
+    private ProductController productController = new ProductController();
 
     public Application() {
         System.out.println("Initializing application...");
@@ -35,8 +38,11 @@ public class Application {
     }
 
     private void routes() {
+        before(((request, response) ->
+                request.session().attribute("basket", new Basket())));
         get("/", (Request req, Response res) -> {
             return "hello world";
         });
+        get("/product/:id/add_to_card", productController::addToCard);
     }
 }
