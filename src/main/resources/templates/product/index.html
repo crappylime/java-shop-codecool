@@ -60,11 +60,12 @@
             </div>
         </div>
     </div>
-    <form id="search_box" action="/products">
-        <input type="text" name="query" placeholder="search for product"/>
+    <form id="search_box" action="/products" onsubmit="checkLength(this.href); return false">
+        <input type="text" name="query" id="searchbox" placeholder="search for product"/>
         <button type="submit">search</button>
         <a href="/products">show all</a>
-    </form><br/>
+        <span id="length_error" style="display: none; color:red">Minimum 3 characters. Asshole!!!</span>
+    </form>
     <div id="products" class="row list-group">
 
         <div class="item col-xs-4 col-lg-4" th:each="prod,iterStat : ${products}">
@@ -94,6 +95,6 @@
 </div>
 
 <div th:replace="footer :: copy"></div>
-
+<script src="main.js"></script>
 </body>
 </html>
