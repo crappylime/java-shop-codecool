@@ -23,8 +23,8 @@ import static spark.Spark.*;
 public class Application {
     private Connection connection;
     private static Application app;
-    private ProductController productController = new ProductController();
-    private BasketController basketController = new BasketController();
+    private ProductController productController;
+    private BasketController basketController;
 
     private Application() {
         try {
@@ -34,6 +34,8 @@ public class Application {
             System.out.println("Application initialization failed...");
         }
         app=this;
+        this.productController = new ProductController();
+        this.basketController = new BasketController();
     }
 
     public static void run(String[] args) {
@@ -136,8 +138,7 @@ public class Application {
             return "hello world";
         });
         post("/products/:id/add_to_cart", basketController::addToCart);
-
-        get("/products", productController::showProducts);
+        get("/products", productController::showList);
         get("/basket", basketController::show);
     }
 }
