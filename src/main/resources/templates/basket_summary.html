@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <body>
 <div th:fragment="basket">
-<div>Basket</div>
+    <div><a href="/basket">Basket</a></div>
 <div th:text="'Products in basket '+${basket.getItems().size()}"></div>
 <div th:text="'Total quantity '+${basket.getTotalCount()}"></div>
 </div>
