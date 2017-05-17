@@ -27,7 +27,9 @@ public class ProductController extends BaseController{
         Map params = new HashMap<>();
 
         List<Product> products = productDao.getAll();
+        List<ProductCategory> categories = productCategoryDao.getAll();
         params.put("products", products);
+        params.put("categories", categories);
 
         ModelAndView modelAndView = new ModelAndView(params, "product/index");
 
