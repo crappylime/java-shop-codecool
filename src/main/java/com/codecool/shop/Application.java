@@ -1,6 +1,8 @@
 package com.codecool.shop;
 
+import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.shutdownHook.ShutdownHook;
+
 import spark.Request;
 import spark.Response;
 
@@ -18,6 +20,7 @@ import static spark.Spark.*;
 public class Application {
     private Connection connection;
     private static Application app;
+    private ProductController productController;
 
     private Application() {
         try {
@@ -27,6 +30,7 @@ public class Application {
             System.out.println("Application initialization failed...");
         }
         app=this;
+        this.productController = new ProductController();
     }
 
     public static void run(String[] args) {
@@ -122,5 +126,8 @@ public class Application {
         get("/", (Request req, Response res) -> {
             return "hello world";
         });
+
+        get("/products", productController::showList);
+
     }
 }

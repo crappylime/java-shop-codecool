@@ -4,74 +4,102 @@ import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by przemek on 02.05.2017.
- */
+
 public class ProductDaoSqlite extends BaseDao implements ProductDao {
+
     @Override
     public void add(Product product) {
+        try {
+            PreparedStatement statement = getConnection().prepareStatement(
+                    "INSERT INTO products (id, name, description, default_price, currency, category_id, " +
+                            "supplier_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            statement.setInt(1, product.getId());
+            statement.setString(2, product.getName());
+            statement.setString(3, product.getDescription());
+            statement.setFloat(4, product.getDefaultPrice());
+            statement.setString(5, product.getDefaultCurrency().getDisplayName());
+            statement.setInt(6, product.getProductCategory().getId());
+            statement.setInt(7, product.getSupplier().getId());
+            statement.executeUpdate();
 
+        } catch (SQLException e) {
+            System.out.println("Connect to DB failed");
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public Product find(int id) {
-        Supplier supplier = new Supplier("Supplier", "Description");
-        ProductCategory category = new ProductCategory("Category", "Department", "Description");
+        Product product = null;
+        ProductCategoryDao productCategoryDao = new ProductCategoryDaoSqlite();
+        SupplierDao supplierDao = new SupplierDaoSqlite();
 
-        Product p = new Product(
-                "Product name",
-                12.00f,
-                "PLN",
-                "Description",
-                category,
-                supplier
-        );
-        p.setId(id);
-        return p;
-    }
+        try {
+            PreparedStatement statement = getConnection().prepareStatement("select * from products where id=(?)");
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
 
-    @Override
-    public void remove(int id) {
-
+            if(rs.next()) {
+                product = new Product(
+                        rs.getString("name"),
+                        rs.getFloat("default_price"),
+                        rs.getString("description"),
+                        rs.getString("currency"),
+                        productCategoryDao.find(rs.getInt("category_id")),
+                        supplierDao.find(rs.getInt("supplier_id"))
+                );
+                product.setId(rs.getInt("id"));
+            }
+        } catch(SQLException e) {
+            System.out.println("Connect to DB failed");
+            System.out.println(e.getMessage());
+        }
+        return product;
     }
 
     @Override
     public List<Product> getAll() {
-        List<Product> products = new ArrayList<Product>();
+        List<Product> products = new ArrayList<>();
 
         try {
-            PreparedStatement statement = this.getConnection().prepareStatement("SELECT * FROM products");
-            products = this.getProducts(statement);
+            PreparedStatement statement = getConnection().prepareStatement("SELECT * FROM products");
+            products = getProducts(statement);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return products;
     }
 
     @Override
     public List<Product> getBy(Supplier supplier) {
-        return null;
+        List<Product> products = new ArrayList<>();
+
+        try {
+            PreparedStatement statement = getConnection().
+                    prepareStatement("SELECT * FROM products WHERE supplier_id=(?)");
+            statement.setInt(1, supplier.getId());
+            products = getProducts(statement);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return products;
     }
 
     @Override
-    public List<Product> getBy(ProductCategory productCategory) {
-        List<Product> products = new ArrayList<Product>();
+    public List<Product> getBy(String name) {
+        List<Product> products = new ArrayList<>();
 
         try {
-            PreparedStatement statement = this.getConnection().
-                    prepareStatement("SELECT * FROM products WHERE category_id = ?");
-            statement.setInt(1, productCategory.getId());
-            products = this.getProducts(statement);
+            PreparedStatement statement = getConnection().
+                    prepareStatement("SELECT * FROM products WHERE name LIKE (?)");
+            statement.setString(1, "%" + name + "%");
+            products = getProducts(statement);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -79,25 +107,44 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
         return products;
     }
 
-    private List<Product> getProducts(PreparedStatement statement) throws SQLException {
-        List<Product> products = new ArrayList<Product>();
-        Supplier supplier = new Supplier("Supplier", "Description");
-        ProductCategory category = new ProductCategory("Category", "Department", "Description");
+    @Override
+    public List<Product> getBy(ProductCategory productCategory) {
+        List<Product> products = new ArrayList<>();
 
-        ResultSet rs = statement.executeQuery();
-        while(rs.next()) {
-            Product product = new Product(
-                    rs.getString("name"),
-                    rs.getFloat("price"),
-                    "PLN",
-                    rs.getString("description"),
-                    category,
-                    supplier
-            );
-            product.setId(rs.getInt("id"));
-            products.add(product);
+        try {
+            PreparedStatement statement = getConnection().
+                    prepareStatement("SELECT * FROM products WHERE category_id=(?)");
+            statement.setInt(1, productCategory.getId());
+            products = getProducts(statement);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return products;
+    }
 
+    private List<Product> getProducts(PreparedStatement statement) {
+        List<Product> products = new ArrayList<>();
+        ProductCategoryDao productCategoryDao = new ProductCategoryDaoSqlite();
+        SupplierDao supplierDao = new SupplierDaoSqlite();
+
+        try {
+            ResultSet rs = statement.executeQuery();
+
+            while(rs.next()) {
+                Product product = new Product(
+                        rs.getString("name"),
+                        rs.getFloat("default_price"),
+                        "PLN",
+                        rs.getString("description"),
+                        productCategoryDao.find(rs.getInt("category_id")),
+                        supplierDao.find(rs.getInt("supplier_id"))
+                );
+                product.setId(rs.getInt("id"));
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return products;
     }
 }
