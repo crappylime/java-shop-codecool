@@ -88,7 +88,7 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
         while(rs.next()) {
             Product product = new Product(
                     rs.getString("name"),
-                    rs.getFloat("price"),
+                    rs.getFloat("default_price"),
                     "PLN",
                     rs.getString("description"),
                     category,
