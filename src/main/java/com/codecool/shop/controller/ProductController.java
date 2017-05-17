@@ -26,21 +26,11 @@ public class ProductController extends BaseController{
     public String showProducts(Request req, Response res) {
         Map params = new HashMap<>();
 
-        List<Product> products = new ArrayList<Product>();
-
-//        sample test objects:
         ProductCategory category = new ProductCategory("categoryName1",
                 "categoryDepartment1", "categoryDescription1");
-        Supplier supplier = new Supplier("supplierName1", "supplierDescr1");
 
-        Product productOne = new Product("rakieta", 12.3f,
-                "PLN", "description1", category, supplier);
-
-        Product productTwo = new Product("jabłko", 2.3f,
-                "PLN", "description2", category, supplier);
-
-        products.add(productOne);
-        products.add(productTwo);
+        List<Product> products = productDao.getAll();
+        System.out.println(products);
 
         params.put("products", products);
         params.put("category", category);
