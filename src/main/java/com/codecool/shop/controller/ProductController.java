@@ -45,6 +45,7 @@ public class ProductController extends BaseController{
 
         params.put("products", products);
         params.put("category", category);
+        params.put("basket", req.session().attribute("basket"));
 
         ModelAndView modelAndView = new ModelAndView(params, "product/index");
 
