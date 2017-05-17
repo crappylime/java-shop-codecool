@@ -41,9 +41,8 @@
                     Category <span class="caret"></span></button>
                 <ul class="dropdown-menu" role="menu">
                     <li th:each="cat,iterStat : ${categories}">
-                        <!--<a th:text="${cat.name}" th:href="@{/products(categoryId=${cat.id})}">Category Title</a>-->
                         <form action="/products" method="get">
-                            <button th:text="${cat.name}" th:value="${cat.id}" name="category_id" type="submit">Category Title</button>
+                            <button th:text="${cat.name}" th:value="${cat.id}" name="category_id" type="submit">Category name</button>
                         </form>
                     </li>
                 </ul>
@@ -53,7 +52,9 @@
                     Supplier <span class="caret"></span></button>
                 <ul class="dropdown-menu" role="menu">
                     <li th:each="sup,iterStat : ${suppliers}">
-                        <a th:text="${sup.name}" href="#">Supplier Title</a>
+                        <form action="/products" method="get">
+                            <button th:text="${sup.name}" th:value="${sup.id}" name="supplier_id" type="submit">Supplier name</button>
+                        </form>
                     </li>
                 </ul>
             </div>
