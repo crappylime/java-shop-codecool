@@ -1,0 +1,1 @@
+INSERT INTO suppliers (name, description) VALUES ('Sup', 'SupDESC')
