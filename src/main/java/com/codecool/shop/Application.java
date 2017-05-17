@@ -122,12 +122,16 @@ public class Application {
     }
 
     private void routes() {
-        before(((request, response) ->
-                request.session().attribute("basket", new Basket())));
+
+        before((request, response) -> {
+            if (request.session().isNew()) {
+                request.session().attribute("basket", new Basket());
+            }
+        });
         get("/", (Request req, Response res) -> {
             return "hello world";
         });
-        get("/products/:id/add_to_card", productController::addToCard);
+        get("/products/:id/add_to_cart", productController::addToCard);
 
         get("/products", productController::showProducts);
     }
