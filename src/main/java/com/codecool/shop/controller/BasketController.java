@@ -14,9 +14,7 @@ import java.util.List;
 
 public class BasketController extends BaseController{
     ProductDao productDao = new ProductDaoSqlite();
-    ProductView productView = new ProductView();
-    BasketView basketView = new BasketView();
-    Basket basket = new Basket();
+
 
     public String addToCart(Request req, Response res) {
         Integer productId = Integer.valueOf(req.params(":id"));
