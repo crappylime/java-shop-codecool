@@ -46,7 +46,7 @@ public class Basket {
         return value;
     }
 
-    public Currency getCurrency() {
-        return this.getItems().get(0).getProduct().getDefaultCurrency();
+    public String getCurrency() {
+        return "PLN";
     }
 }
