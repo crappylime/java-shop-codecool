@@ -17,15 +17,14 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
     public void add(Product product) {
         try {
             PreparedStatement statement = getConnection().prepareStatement(
-                    "INSERT INTO products (id, name, description, default_price, currency, category_id, " +
-                            "supplier_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            statement.setInt(1, product.getId());
-            statement.setString(2, product.getName());
-            statement.setString(3, product.getDescription());
-            statement.setFloat(4, product.getDefaultPrice());
-            statement.setString(5, product.getDefaultCurrency().getDisplayName());
-            statement.setInt(6, product.getProductCategory().getId());
-            statement.setInt(7, product.getSupplier().getId());
+                    "INSERT INTO products (name, description, default_price, currency, category_id, " +
+                            "supplier_id) VALUES (?, ?, ?, ?, ?, ?)");
+            statement.setString(1, product.getName());
+            statement.setString(2, product.getDescription());
+            statement.setFloat(3, product.getDefaultPrice());
+            statement.setString(4, product.getDefaultCurrency().getDisplayName());
+            statement.setInt(5, product.getProductCategory().getId());
+            statement.setInt(6, product.getSupplier().getId());
             statement.executeUpdate();
 
         } catch (SQLException e) {
