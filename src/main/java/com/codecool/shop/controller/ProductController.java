@@ -44,4 +44,19 @@ public class ProductController extends BaseController {
 
         return render(modelAndView);
     }
+
+    public String add(Request req, Response res) {
+        Map params = new HashMap<>();
+        List<ProductCategory> categories = productCategoryDao.getAll();
+        List<Supplier> suppliers = supplierDao.getAll();
+
+        if (req.requestMethod().equals("GET")) {
+            params.put("categories", categories);
+            params.put("suppliers", suppliers);
+
+            ModelAndView modelAndView = new ModelAndView(params, "product/form");
+            return render(modelAndView);
+        }
+        return "";
+    }
 }

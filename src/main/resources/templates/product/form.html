@@ -1,0 +1,71 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Codecool"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title>Codecool Shop</title>
+
+    <!-- Latest compiled and minified Jquery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/custom.css"/>
+</head>
+
+<body>
+
+<div class="jumbotron text-center">
+    <h1>Codecool Shop</h1>
+</div>
+
+<div class="container">
+    <div class="well well-sm">
+        <div class="btn-group">
+            <div class="btn-group" th:if="${categories}">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    Category <span class="caret"></span></button>
+                <ul class="dropdown-menu" role="menu">
+                    <li th:each="cat,iterStat : ${categories}">
+                        <form action="/products" method="get">
+                            <button th:text="${cat.name}" th:value="${cat.id}" name="category_id" type="submit">Category
+                                name
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+            <div class="btn-group" th:if="${suppliers}">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    Supplier <span class="caret"></span></button>
+                <ul class="dropdown-menu" role="menu">
+                    <li th:each="sup,iterStat : ${suppliers}">
+                        <form action="/products" method="get">
+                            <button th:text="${sup.name}" th:value="${sup.id}" name="supplier_id" type="submit">Supplier
+                                name
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="footer :: copy"></div>
+<script src="main.js"></script>
+</body>
+</html>
