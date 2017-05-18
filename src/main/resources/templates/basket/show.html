@@ -39,12 +39,32 @@
     </div>
 
 
-    <div id="basket" class="row list-group">
+    <div id="basket" class="container">
 
-        <div class="item col-xs-4 col-lg-4" th:each="item,iterStat : ${items}">
-            <div th:text="${item.getProduct().getName()}"></div>
-            <div th:text="${item.getQuantity()}"></div>
-        </div>
+        <table class="table-striped" width="100%">
+            <tr>
+                <th>Photo</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Overall</th>
+            </tr>
+            <tr th:each="item,iterStat : ${items}">
+                <td><img width="100px" class="img-thumbnail" src="http://placehold.it/400x250/000/fff"
+                         th:attr="src='/img/product_' + ${item.getProduct().id} + '.jpg'" alt=""/></td>
+                <td th:text="${item.getProduct().getName()}">Name</td>
+                <td th:text="${item.getProduct().getPrice()}">10 PLN</td>
+                <td th:text="${item.getQuantity()}">3</td>
+                <td th:text="${item.getValue()} + ' ' + ${item.getProduct().getDefaultCurrency()}">30 PLN</td>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+                <td th:text="'Total quantity ' + ${basket.getTotalCount()}">Total quantity</td>
+                <td th:text="'Total value ' + ${basket.getTotalValue()} + ' ' + ${basket.getCurrency()}">Total value
+                </td>
+
+            </tr>
+        </table>
     </div>
 
 </div>
