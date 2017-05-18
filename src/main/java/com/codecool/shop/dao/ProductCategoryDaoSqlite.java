@@ -9,18 +9,18 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductCategoryDaoSqlite extends BaseDao implements ProductCategoryDao  {
+public class ProductCategoryDaoSqlite extends BaseDao implements ProductCategoryDao {
 
     @Override
     public ProductCategory find(int id) {
         ProductCategory category = null;
 
         try {
-            PreparedStatement statement = getConnection().prepareStatement("select * from categories where id=(?)");
+            PreparedStatement statement = getConnection().prepareStatement("SELECT * FROM categories WHERE id=(?)");
             statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
 
-            if(rs.next()) {
+            if (rs.next()) {
                 category = new ProductCategory(
                         rs.getString("name"),
                         rs.getString("description"),
@@ -28,7 +28,7 @@ public class ProductCategoryDaoSqlite extends BaseDao implements ProductCategory
                 );
                 category.setId(rs.getInt("id"));
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             System.out.println("Connect to DB failed");
             System.out.println(e.getMessage());
         }
@@ -41,8 +41,8 @@ public class ProductCategoryDaoSqlite extends BaseDao implements ProductCategory
 
         try {
             Statement statement = getConnection().createStatement();
-            ResultSet rs = statement.executeQuery("select * from categories");
-            while(rs.next()) {
+            ResultSet rs = statement.executeQuery("SELECT * FROM categories");
+            while (rs.next()) {
                 ProductCategory category = new ProductCategory(
                         rs.getString("name"),
                         rs.getString("description"),
@@ -51,7 +51,7 @@ public class ProductCategoryDaoSqlite extends BaseDao implements ProductCategory
                 category.setId(rs.getInt("id"));
                 categories.add(category);
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             System.out.println("Connect to DB failed");
             System.out.println(e.getMessage());
         }

@@ -1,8 +1,9 @@
 package com.codecool.shop;
 
+import com.codecool.shop.controller.BasketController;
 import com.codecool.shop.controller.ProductController;
+import com.codecool.shop.model.Basket;
 import com.codecool.shop.shutdownHook.ShutdownHook;
-
 import spark.Request;
 import spark.Response;
 
@@ -21,6 +22,7 @@ public class Application {
     private Connection connection;
     private static Application app;
     private ProductController productController;
+    private BasketController basketController;
 
     private Application() {
         try {
@@ -29,8 +31,9 @@ public class Application {
             e.printStackTrace();
             System.out.println("Application initialization failed...");
         }
-        app=this;
+        app = this;
         this.productController = new ProductController();
+        this.basketController = new BasketController();
     }
 
     public static void run(String[] args) {
@@ -40,7 +43,7 @@ public class Application {
         if (app == null) {
             try {
                 new Application();
-                if (args.length>0) {
+                if (args.length > 0) {
                     if (Objects.equals(args[0], "--init-db")) {
                         app.dropTables();
                         app.createTables();
@@ -77,11 +80,11 @@ public class Application {
         while (rs.next()) {
             tables.add(rs.getString("name"));
         }
-        for (String table: tables) {
+        for (String table : tables) {
             statement.execute("DROP TABLE '" + table + "'");
         }
     }
-    
+
     private void createTables() throws SQLException {
         Statement statement = connection.createStatement();
         statement.execute(prepareQuery("products.sql"));
@@ -98,7 +101,7 @@ public class Application {
 
     private String prepareQuery(String fileName) {
         StringBuilder sb = new StringBuilder();
-        try{
+        try {
             BufferedReader bufferedReader = new BufferedReader(
                     new FileReader("src/main/resources/sql/" + fileName)
             );
@@ -106,7 +109,7 @@ public class Application {
             while ((line = bufferedReader.readLine()) != null) {
                 sb.append(line);
             }
-        } catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
@@ -123,11 +126,17 @@ public class Application {
     }
 
     private void routes() {
+
+        before((request, response) -> {
+            if (request.session().isNew()) {
+                request.session().attribute("basket", new Basket());
+            }
+        });
         get("/", (Request req, Response res) -> {
             return "hello world";
         });
-
+        post("/products/:id/add_to_cart", basketController::addToCart);
         get("/products", productController::showList);
-
+        get("/basket", basketController::show);
     }
 }

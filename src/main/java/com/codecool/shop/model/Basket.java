@@ -8,14 +8,14 @@ public class Basket {
 
     public void add(Product product, Integer quantity) {
         boolean productExists = false;
-        for(BasketItem item: this.getItems()) {
-            if(item.getProduct().getId() == product.getId()) {
+        for (BasketItem item : this.getItems()) {
+            if (item.getProduct().getId() == product.getId()) {
                 item.setQuantity(item.getQuantity() + quantity);
                 productExists = true;
             }
         }
 
-        if(!productExists) {
+        if (!productExists) {
             BasketItem item = new BasketItem(product, quantity);
             this.getItems().add(item);
         }
@@ -31,7 +31,7 @@ public class Basket {
 
     public Integer getTotalCount() {
         Integer count = 0;
-        for(BasketItem item: this.getItems()) {
+        for (BasketItem item : this.getItems()) {
             count += item.getQuantity();
         }
         return count;

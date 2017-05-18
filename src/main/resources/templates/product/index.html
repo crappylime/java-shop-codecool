@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8"/>
     <meta name="author" content="Codecool"/>
@@ -42,7 +42,9 @@
                 <ul class="dropdown-menu" role="menu">
                     <li th:each="cat,iterStat : ${categories}">
                         <form action="/products" method="get">
-                            <button th:text="${cat.name}" th:value="${cat.id}" name="category_id" type="submit">Category name</button>
+                            <button th:text="${cat.name}" th:value="${cat.id}" name="category_id" type="submit">Category
+                                name
+                            </button>
                         </form>
                     </li>
                 </ul>
@@ -53,13 +55,18 @@
                 <ul class="dropdown-menu" role="menu">
                     <li th:each="sup,iterStat : ${suppliers}">
                         <form action="/products" method="get">
-                            <button th:text="${sup.name}" th:value="${sup.id}" name="supplier_id" type="submit">Supplier name</button>
+                            <button th:text="${sup.name}" th:value="${sup.id}" name="supplier_id" type="submit">Supplier
+                                name
+                            </button>
                         </form>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
+    <div th:replace="basket_summary :: basket"></div>
+
+
     <form id="search_box" action="/products" onsubmit="checkLength(this.href); return false">
         <input type="text" name="query" id="searchbox" placeholder="search for product"/>
         <button type="submit">search</button>
@@ -82,7 +89,7 @@
                         </div>
                         <div class="col-xs-12 col-md-6">
                             <form th:action="'/products/'+${prod.id}+'/add_to_cart'" method="POST">
-                                <input type="number" name="amount" placeholder="amount" />
+                                <input type="number" name="amount" placeholder="amount"/>
                                 <button class="btn btn-success" type="submit">Add to cart</button>
                             </form>
                         </div>
@@ -93,7 +100,6 @@
     </div>
 
 </div>
-
 <div th:replace="footer :: copy"></div>
 <script src="main.js"></script>
 </body>

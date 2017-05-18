@@ -38,6 +38,8 @@ public class ProductController extends BaseController {
         params.put("suppliers", suppliers);
         params.put("products", products);
 
+        params.put("basket", req.session().attribute("basket"));
+
         ModelAndView modelAndView = new ModelAndView(params, "product/index");
 
         return render(modelAndView);

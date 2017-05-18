@@ -3,27 +3,38 @@ package com.codecool.shop.controller;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.ProductDaoSqlite;
 import com.codecool.shop.model.Basket;
+import com.codecool.shop.model.BasketItem;
 import com.codecool.shop.model.Product;
-import com.codecool.shop.view.BasketView;
-import com.codecool.shop.view.ProductView;
-import com.codecool.shop.view.UserInput;
+import spark.ModelAndView;
+import spark.Request;
+import spark.Response;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class BasketController extends BaseController{
+public class BasketController extends BaseController {
     ProductDao productDao = new ProductDaoSqlite();
-    ProductView productView = new ProductView();
-    BasketView basketView = new BasketView();
-    Basket basket = new Basket();
 
-    public void addToCartAction() {
-        List<Product> products = this.productDao.getAll();
-        this.productView.displayProductsList(products);
+    public String show(Request req, Response res) {
+        Basket basket = req.session().attribute("basket");
+        List<BasketItem> basketItems = basket.getItems();
+        Map params = new HashMap<>();
+        params.put("items", basketItems);
+        ModelAndView modelAndView = new ModelAndView(params, "basket/show");
 
-        System.out.print("Select product by giving id: ");
-        Integer productId = UserInput.getUserInput();
-        Product product = productDao.find(productId);
-        this.basket.add(product, 1);
-        this.basketView.displayBasketItems(this.basket.getItems());
+        return render(modelAndView);
     }
+
+    public String addToCart(Request req, Response res) {
+        Integer productId = Integer.valueOf(req.params(":id"));
+        Product productToAdd = productDao.find(productId);
+        Integer quantity = !req.queryMap("amount").value().isEmpty() ? req.queryMap("amount").integerValue() : 1;
+        Basket basket = req.session().attribute("basket");
+        basket.add(productToAdd, quantity);
+        res.redirect("/products");   //TODO universal link
+        return null;
+    }
+
+
 }

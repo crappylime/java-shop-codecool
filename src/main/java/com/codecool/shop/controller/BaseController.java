@@ -8,7 +8,7 @@ import spark.template.thymeleaf.ThymeleafTemplateEngine;
  */
 public class BaseController {
 
-    public String render(ModelAndView modelAndView){
+    public String render(ModelAndView modelAndView) {
         String rendered = new ThymeleafTemplateEngine().render(modelAndView);
 
         return rendered;
