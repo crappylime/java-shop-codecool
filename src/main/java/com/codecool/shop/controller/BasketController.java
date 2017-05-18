@@ -21,6 +21,7 @@ public class BasketController extends BaseController {
         List<BasketItem> basketItems = basket.getItems();
         Map params = new HashMap<>();
         params.put("items", basketItems);
+        params.put("basket", basket);
         ModelAndView modelAndView = new ModelAndView(params, "basket/show");
 
         return render(modelAndView);

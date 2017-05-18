@@ -18,7 +18,7 @@ public class Product extends BaseModel {
     }
 
     public float getDefaultPrice() {
-        return defaultPrice;
+        return Math.round(defaultPrice*100.0)/100.0F;
     }
 
     public void setDefaultPrice(float defaultPrice) {

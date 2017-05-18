@@ -1,6 +1,7 @@
 package com.codecool.shop.model;
 
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 
 public class Basket {
@@ -35,5 +36,17 @@ public class Basket {
             count += item.getQuantity();
         }
         return count;
+    }
+
+    public float getTotalValue() {
+        float value = 0;
+        for (BasketItem item : this.getItems()) {
+            value += item.getValue();
+        }
+        return value;
+    }
+
+    public Currency getCurrency() {
+        return this.getItems().get(0).getProduct().getDefaultCurrency();
     }
 }
