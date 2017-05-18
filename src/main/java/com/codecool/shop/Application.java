@@ -138,7 +138,8 @@ public class Application {
             }
         });
         get("/", (Request req, Response res) -> {
-            return "hello world";
+            res.redirect("/products");
+            return null;
         });
         post("/products/:id/add_to_cart", basketController::addToCart);
         get("/products", productController::showList);
