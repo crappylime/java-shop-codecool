@@ -29,73 +29,101 @@
 
 <body>
 
-<div class="jumbotron text-center">
-    <h1>Codecool Shop</h1>
-</div>
-
-<div class="container">
-    <div class="well well-sm">
-        <div class="btn-group">
-            <div class="btn-group" th:if="${categories}">
-                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                    Category <span class="caret"></span></button>
-                <ul class="dropdown-menu" role="menu">
-                    <li th:each="cat,iterStat : ${categories}">
-                        <form action="/products" method="get">
-                            <button th:text="${cat.name}" th:value="${cat.id}" name="category_id" type="submit">Category
-                                name
-                            </button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-            <div class="btn-group" th:if="${suppliers}">
-                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                    Supplier <span class="caret"></span></button>
-                <ul class="dropdown-menu" role="menu">
-                    <li th:each="sup,iterStat : ${suppliers}">
-                        <form action="/products" method="get">
-                            <button th:text="${sup.name}" th:value="${sup.id}" name="supplier_id" type="submit">Supplier
-                                name
-                            </button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse bg-faded">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">Codecool Shop</a>
         </div>
-    </div>
-    <div th:replace="basket_summary :: basket"></div>
-
-
-    <form id="search_box" action="/products" onsubmit="checkLength(this.href); return false">
-        <input type="text" name="query" id="searchbox" placeholder="search for product"/>
-        <button type="submit">search</button>
-        <a href="/products">show all</a>
-        <span id="length_error" style="display: none; color:red">Minimum 3 characters. Asshole!!!</span>
-    </form>
-    <div id="products" class="row list-group">
-
-        <div class="item col-xs-4 col-lg-4" th:each="prod,iterStat : ${products}">
-            <div class="thumbnail">
-                <img class="group list-group-image"
-                     th:src="${prod.id==11} ? '/img/product_' + ${prod.id} + '.gif' : '/img/product_' + ${prod.id} + '.jpg'" alt=""/>
-                <div class="caption">
-                    <h4 class="group inner list-group-item-heading" th:text="${prod.name}">Product name</h4>
-                    <p class="group inner list-group-item-text" th:text="${prod.description}">Product
-                        description... </p>
-                    <div class="row">
-                        <div class="col-xs-12 col-md-6">
-                            <p class="lead" th:text="${prod.getPrice()}">100 USD</p>
-                        </div>
-                        <div class="col-xs-12 col-md-6">
-                            <form th:action="'/products/'+${prod.id}+'/add_to_cart'" method="POST">
-                                <input type="number" name="amount" placeholder="amount"/>
-                                <button class="btn btn-success" type="submit">Add to cart</button>
+        <form class="navbar-form navbar-left" id="search_box" action="/products"
+              onsubmit="checkLength(this.href); return false">
+            <div class="form-group">
+                <input type="text" name="query" id="searchbox" class="form-control"
+                       placeholder="Search for product"/>
+            </div>
+            <button type="submit" class="btn btn-default">search</button>
+            <span id="length_error" style="display: none; color:red">Minimum 3 chars. Asshole!!!</span>
+        </form>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="/">Show all products</a></li>
+            <li><a href="/products/new">Add new product</a></li>
+            <div class="btn-group">
+                <div class="btn-group" th:if="${categories}">
+                    <button type="button" class="btn btn-default dropdown-toggle navbar-btn" data-toggle="dropdown">
+                        Category <span class="caret"></span></button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li th:each="cat,iterStat : ${categories}">
+                            <form action="/products" method="get">
+                                <button class="btn btn-md btn-block" th:text="${cat.name}" th:value="${cat.id}"
+                                        name="category_id" type="submit">
+                                    Category name
+                                </button>
                             </form>
+                        </li>
+                    </ul>
+                </div>
+                <div class="btn-group" th:if="${suppliers}">
+                    <button type="button" class="btn btn-default dropdown-toggle navbar-btn" data-toggle="dropdown">
+                        Supplier <span class="caret"></span></button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li th:each="sup,iterStat : ${suppliers}">
+                            <form action="/products" method="get">
+                                <button class="btn btn-md btn-block" th:text="${sup.name}" th:value="${sup.id}"
+                                        name="supplier_id" type="submit">
+                                    Supplier name
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </ul>
+    </div>
+</nav>
+
+<div class="text-center well-sm" th:if="${category}">
+    <p class="lead" th:inline="text">
+        [[${category.name}]] |
+        [[${category.description}]] |
+        [[${category.department}]]
+    </p>
+</div>
+<div class="text-center well-sm" th:if="${supplier}">
+    <p class="lead" th:inline="text">
+        [[${supplier.name}]] |
+        [[${supplier.description}]]
+    </p>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-10">
+            <div id="products" class="row list-group">
+                <div class="item col-xs-4 col-lg-4" th:each="prod,iterStat : ${products}">
+                    <div class="thumbnail">
+                        <img class="group list-group-image"
+                             th:src="${prod.id==11} ? '/img/product_' + ${prod.id} + '.gif' : '/img/product_' + ${prod.id} + '.jpg'"
+                             alt=""/>
+                        <div class="caption">
+                            <h4 class="group inner list-group-item-heading" th:text="${prod.name}">Product name</h4>
+                            <p class="group inner list-group-item-text" th:text="${prod.description}">Product
+                                description... </p>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-4">
+                                    <strong th:text="${prod.getPrice()}">100 USD</strong>
+                                </div>
+                                <div class="col-xs-12 col-md-8">
+                                    <form th:action="'/products/'+${prod.id}+'/add_to_cart'" method="POST">
+                                        <input type="number" name="amount" value="1"/>
+                                        <button class="btn btn-success" type="submit">Add to cart</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="col-md-2">
+            <div th:replace="basket_summary :: basket"></div>
         </div>
     </div>
 
