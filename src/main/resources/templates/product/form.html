@@ -35,44 +35,37 @@
 
 <div class="container" id="form_container">
 
-    <form th:action="@{~/events/new}" method="post" class="form-horizontal">
+    <form th:action="@{~/products/new}" method="post">
         <div class="form-group">
-        <label for="name" class="col-sm-2 control-label">Name:</label>
-            <div class="col-sm-10">
+        <label for="name">Name:</label>
             <input type="text" id="name" name="product_name" class="form-control"/>
-            </div>
         </div>
 
         <div class="form-group">
-        <label for="desc" class="col-sm-2 control-label">Description:</label>
-            <div class="col-sm-10">
+        <label for="desc">Description:</label>
                 <textarea id="desc" name="product_desc" class="form-control" rows="3"></textarea>
-            </div>
         </div>
 
         <div class="form-group">
-        <label for="price" class="col-sm-2 control-label">Price:</label>
-            <div class="col-sm-10">
+        <label for="price">Price:</label>
                 <input type="number" min="1" step="any" id="price" name="product_price" class="form-control"/>
-            </div>
         </div>
 
         <div class="form-group">
         <label for="category">Category:</label>
-            <select id="category" name="product_category" class="form-control">
-                <option th:each="category,iterStat : ${categories}" th:value="${category.getId()}"
-                        th:text="${category.getName()}"></option>
-            </select>
+                <select id="category" name="product_category" class="form-control">
+                    <option th:each="category,iterStat : ${categories}" th:value="${category.getId()}"
+                            th:text="${category.getName()}"></option>
+                </select>
         </div>
 
         <div class="form-group">
             <label for="supplier">Supplier:</label>
-            <select id="supplier" name="product_supplier" class="form-control">
-                <option th:each="supplier,iterStat : ${suppliers}" th:value="${supplier.getId()}"
-                        th:text="${supplier.getName()}"></option>
-            </select>
+                <select id="supplier" name="product_supplier" class="form-control">
+                    <option th:each="supplier,iterStat : ${suppliers}" th:value="${supplier.getId()}"
+                            th:text="${supplier.getName()}"></option>
+                </select>
         </div>
-
         <button type="submit" class="btn btn-default">Save</button>
     </form>
 </div>

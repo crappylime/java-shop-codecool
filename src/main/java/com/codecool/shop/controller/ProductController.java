@@ -56,6 +56,20 @@ public class ProductController extends BaseController {
 
             ModelAndView modelAndView = new ModelAndView(params, "product/form");
             return render(modelAndView);
+        }else {
+
+            String name = req.queryParams("product_name");
+            Float defaultPrice  = Float.parseFloat(req.queryParams("product_price"));
+            String currencyString = "PLN";
+            String description = req.queryParams("product_desc");
+            ProductCategory productCategory = productCategoryDao
+                    .find(Integer.parseInt(req.queryParams("product_category")));
+            Supplier productSupplier = supplierDao.find(Integer.parseInt(req.queryParams("product_supplier")));
+
+            productDao.add(new Product(name, defaultPrice, currencyString, description, productCategory,
+                    productSupplier));
+
+            res.redirect("/products");
         }
         return "";
     }

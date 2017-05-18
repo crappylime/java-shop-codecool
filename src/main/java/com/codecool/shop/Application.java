@@ -139,5 +139,6 @@ public class Application {
         get("/products", productController::showList);
         get("/basket", basketController::show);
         get("/products/new", productController::add);
+        post("/products/new", productController::add);
     }
 }
