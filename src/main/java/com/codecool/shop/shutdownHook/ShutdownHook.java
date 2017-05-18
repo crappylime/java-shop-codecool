@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class ShutdownHook extends Thread {
 
     @Override
-    public void run(){
+    public void run() {
         try {
             Application.getApp().getConnection().close();
             System.out.println("DB connection closed safely");

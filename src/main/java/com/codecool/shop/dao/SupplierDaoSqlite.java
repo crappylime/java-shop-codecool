@@ -16,18 +16,18 @@ public class SupplierDaoSqlite extends BaseDao implements SupplierDao {
         Supplier supplier = null;
 
         try {
-            PreparedStatement statement = getConnection().prepareStatement("select * from suppliers where id=(?)");
+            PreparedStatement statement = getConnection().prepareStatement("SELECT * FROM suppliers WHERE id=(?)");
             statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
 
-            if(rs.next()) {
+            if (rs.next()) {
                 supplier = new Supplier(
                         rs.getString("name"),
                         rs.getString("description")
                 );
                 supplier.setId(rs.getInt("id"));
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             System.out.println("Connect to DB failed");
             System.out.println(e.getMessage());
         }
@@ -40,8 +40,8 @@ public class SupplierDaoSqlite extends BaseDao implements SupplierDao {
 
         try {
             Statement statement = getConnection().createStatement();
-            ResultSet rs = statement.executeQuery("select * from suppliers");
-            while(rs.next()) {
+            ResultSet rs = statement.executeQuery("SELECT * FROM suppliers");
+            while (rs.next()) {
                 Supplier supplier = new Supplier(
                         rs.getString("name"),
                         rs.getString("description")
@@ -49,7 +49,7 @@ public class SupplierDaoSqlite extends BaseDao implements SupplierDao {
                 supplier.setId(rs.getInt("id"));
                 suppliers.add(supplier);
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             System.out.println("Connect to DB failed");
             System.out.println("Conne unnecessary");
             System.out.println(e.getMessage());

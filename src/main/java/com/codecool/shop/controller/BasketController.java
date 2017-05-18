@@ -5,9 +5,6 @@ import com.codecool.shop.dao.ProductDaoSqlite;
 import com.codecool.shop.model.Basket;
 import com.codecool.shop.model.BasketItem;
 import com.codecool.shop.model.Product;
-import com.codecool.shop.view.BasketView;
-import com.codecool.shop.view.ProductView;
-import com.codecool.shop.view.UserInput;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -16,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BasketController extends BaseController{
+public class BasketController extends BaseController {
     ProductDao productDao = new ProductDaoSqlite();
 
     public String show(Request req, Response res) {
@@ -38,7 +35,6 @@ public class BasketController extends BaseController{
         res.redirect("/products");   //TODO universal link
         return null;
     }
-
 
 
 }
