@@ -22,7 +22,6 @@ public class BasketController extends BaseController{
     public String show(Request req, Response res) {
         Basket basket = req.session().attribute("basket");
         List<BasketItem> basketItems = basket.getItems();
-        System.out.println(basketItems.get(0).getProduct().getName());
         Map params = new HashMap<>();
         params.put("items", basketItems);
         ModelAndView modelAndView = new ModelAndView(params, "basket/show");
