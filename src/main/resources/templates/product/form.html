@@ -34,36 +34,54 @@
 </div>
 
 <div class="container">
-    <div class="well well-sm">
-        <div class="btn-group">
+
+    <form th:action="@{~/events/new} "
+          method="post">
+        <div>
+
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="product_name"/>
+
+            <label for="desc">Description:</label>
+            <textarea id="desc" name="product_desc"></textarea>
+
+            <label for="price">Price:</label>
+            <input type="number" min="1" step="any" id="price" name="product_price"/>
+
+            <label for="category">Category:</label>
             <div class="btn-group" th:if="${categories}">
                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                     Category <span class="caret"></span></button>
                 <ul class="dropdown-menu" role="menu">
                     <li th:each="cat,iterStat : ${categories}">
                         <form action="/products" method="get">
-                            <button th:text="${cat.name}" th:value="${cat.id}" name="category_id" type="submit">Category
+                            <button th:text="${cat.name}" th:value="${cat.id}" id="category" name="category_id" type="submit">Category
                                 name
                             </button>
                         </form>
                     </li>
                 </ul>
             </div>
+
+            <label for="supplier">Supplier:</label>
             <div class="btn-group" th:if="${suppliers}">
                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                     Supplier <span class="caret"></span></button>
                 <ul class="dropdown-menu" role="menu">
                     <li th:each="sup,iterStat : ${suppliers}">
                         <form action="/products" method="get">
-                            <button th:text="${sup.name}" th:value="${sup.id}" name="supplier_id" type="submit">Supplier
+                            <button th:text="${sup.name}" th:value="${sup.id}" id="supplier" name="supplier_id" type="submit">Supplier
                                 name
                             </button>
                         </form>
                     </li>
                 </ul>
             </div>
+
+            <button type="submit">Save</button>
+
         </div>
-    </div>
+    </form>
 </div>
 <div th:replace="footer :: copy"></div>
 <script src="main.js"></script>
