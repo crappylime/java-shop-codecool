@@ -50,7 +50,6 @@ public class Application {
                         app.fillTables();
                     } else if (Objects.equals(args[0], "--migrate-db")) {
                         app.createTables();
-                        app.fillTables();
                     }
                 }
                 exception(Exception.class, (e, req, res) -> e.printStackTrace());
@@ -94,9 +93,15 @@ public class Application {
 
     private void fillTables() throws SQLException {
         Statement statement = connection.createStatement();
-        statement.execute(prepareQuery("productsData.sql"));
-        statement.execute(prepareQuery("categoriesData.sql"));
-        statement.execute(prepareQuery("suppliersData.sql"));
+        String[] files = {
+                prepareQuery("productsData.sql"),
+                prepareQuery("categoriesData.sql"),
+                prepareQuery("suppliersData.sql") };
+        for (String file : files) {
+            for (String line : file.split(";")) {
+                statement.execute(line);
+            }
+        }
     }
 
     private String prepareQuery(String fileName) {
