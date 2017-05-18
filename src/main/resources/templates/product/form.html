@@ -1,0 +1,80 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Codecool"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title>Codecool Shop</title>
+
+    <!-- Latest compiled and minified Jquery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/custom.css"/>
+</head>
+
+<body>
+
+<div class="jumbotron text-center">
+    <h1>Codecool Shop</h1>
+</div>
+
+<div class="container" id="form_container">
+
+    <form th:action="@{~/products/new}" method="post">
+        <div class="form-group">
+        <label for="name">Name:</label>
+            <input type="text" id="name" name="product_name" class="form-control"/>
+        </div>
+
+        <div class="form-group">
+        <label for="desc">Description:</label>
+                <textarea id="desc" name="product_desc" class="form-control" rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+        <label for="price">Price:</label>
+                <input type="number" min="1" step="any" id="price" name="product_price" class="form-control"/>
+        </div>
+
+        <div class="form-group">
+        <label for="category">Category:</label>
+                <select id="category" name="product_category" class="form-control">
+                    <option th:each="category,iterStat : ${categories}" th:value="${category.getId()}"
+                            th:text="${category.getName()}"></option>
+                </select>
+        </div>
+
+        <div class="form-group">
+            <label for="supplier">Supplier:</label>
+                <select id="supplier" name="product_supplier" class="form-control">
+                    <option th:each="supplier,iterStat : ${suppliers}" th:value="${supplier.getId()}"
+                            th:text="${supplier.getName()}"></option>
+                </select>
+        </div>
+        <div class="form-group">
+            <label for="image">Upload image:</label>
+            <input type="file" id="image" name="product_image" class="form-control" />
+            <p class="help-block">Only jpg or png files</p>
+        </div>
+        <button type="submit" class="btn btn-default">Save</button>
+    </form>
+</div>
+<div th:replace="footer :: copy"></div>
+<script src="main.js"></script>
+</body>
+</html>
