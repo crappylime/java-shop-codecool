@@ -52,10 +52,15 @@ public class Application {
                         app.createTables();
                     }
                 }
-                exception(Exception.class, (e, req, res) -> e.printStackTrace());
-                staticFileLocation("/public");
-                port(8888);
-                app.routes();
+                Integer requiredTablesCount = 4;
+                if (app.tablesCounter() == requiredTablesCount) {
+                    exception(Exception.class, (e, req, res) -> e.printStackTrace());
+                    staticFileLocation("/public");
+                    port(8888);
+                    app.routes();
+                } else {
+                    System.out.println("Database missing tables...");
+                }
             } catch (SQLException e) {
                 System.out.println("Application initialization failed...");
                 e.printStackTrace();
@@ -104,6 +109,23 @@ public class Application {
         }
     }
 
+    private Integer tablesCounter() throws SQLException {
+        Integer tablesCounter = 0;
+        List<String> requiredTables = new ArrayList<>();
+        requiredTables.add("sqlite_sequence");
+        requiredTables.add("products");
+        requiredTables.add("categories");
+        requiredTables.add("suppliers");
+        Statement statement = connection.createStatement();
+        ResultSet rs = statement.executeQuery("SELECT name FROM sqlite_master WHERE type='table'");
+        while (rs.next()) {
+            if (requiredTables.contains(rs.getString("name"))) {
+                tablesCounter++;
+            }
+        }
+        return tablesCounter;
+    }
+
     private String prepareQuery(String fileName) {
         StringBuilder sb = new StringBuilder();
         try {
@@ -141,10 +163,10 @@ public class Application {
             res.redirect("/products");
             return null;
         });
-        post("/products/:id/add_to_cart", basketController::addToCart);
-        get("/products", productController::showList);
-        get("/basket", basketController::show);
+        get("/products", productController::index);
         get("/products/new", productController::add);
         post("/products/new", productController::add);
+        post("/products/:id/add_to_cart", basketController::addToCartAction);
+        get("/basket", basketController::show);
     }
 }

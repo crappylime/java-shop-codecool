@@ -27,15 +27,13 @@ public class BasketController extends BaseController {
         return render(modelAndView);
     }
 
-    public String addToCart(Request req, Response res) {
+    public String addToCartAction(Request req, Response res) {
         Integer productId = Integer.valueOf(req.params(":id"));
         Product productToAdd = productDao.find(productId);
         Integer quantity = !req.queryMap("amount").value().isEmpty() ? req.queryMap("amount").integerValue() : 1;
         Basket basket = req.session().attribute("basket");
         basket.add(productToAdd, quantity);
-        res.redirect("/products");   //TODO universal link
+        res.redirect("/products");
         return null;
     }
-
-
 }

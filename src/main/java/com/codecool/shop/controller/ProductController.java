@@ -17,7 +17,7 @@ public class ProductController extends BaseController {
     private ProductCategoryDao productCategoryDao = new ProductCategoryDaoSqlite();
     private SupplierDao supplierDao = new SupplierDaoSqlite();
 
-    public String showList(Request req, Response res) {
+    public String index(Request req, Response res) {
         Map params = new HashMap<>();
         List<Product> products = productDao.getAll();
         List<ProductCategory> categories = productCategoryDao.getAll();
