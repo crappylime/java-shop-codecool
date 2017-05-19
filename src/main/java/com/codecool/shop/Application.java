@@ -3,6 +3,7 @@ package com.codecool.shop;
 import com.codecool.shop.controller.BasketController;
 import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.model.Basket;
+import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.shutdownHook.ShutdownHook;
 import spark.Request;
 import spark.Response;
@@ -52,10 +53,15 @@ public class Application {
                         app.createTables();
                     }
                 }
-                exception(Exception.class, (e, req, res) -> e.printStackTrace());
-                staticFileLocation("/public");
-                port(8888);
-                app.routes();
+                Integer requiredTablesCount = 4;
+                if (app.tablesCounter() == requiredTablesCount) {
+                    exception(Exception.class, (e, req, res) -> e.printStackTrace());
+                    staticFileLocation("/public");
+                    port(8888);
+                    app.routes();
+                } else {
+                    System.out.println("Database missing tables...");
+                }
             } catch (SQLException e) {
                 System.out.println("Application initialization failed...");
                 e.printStackTrace();
@@ -102,6 +108,23 @@ public class Application {
                 statement.execute(line);
             }
         }
+    }
+
+    private Integer tablesCounter() throws SQLException {
+        Integer tablesCounter = 0;
+        List<String> requiredTables = new ArrayList<>();
+        requiredTables.add("sqlite_sequence");
+        requiredTables.add("products");
+        requiredTables.add("categories");
+        requiredTables.add("suppliers");
+        Statement statement = connection.createStatement();
+        ResultSet rs = statement.executeQuery("SELECT name FROM sqlite_master WHERE type='table'");
+        while (rs.next()) {
+            if (requiredTables.contains(rs.getString("name"))) {
+                tablesCounter++;
+            }
+        }
+        return tablesCounter;
     }
 
     private String prepareQuery(String fileName) {
