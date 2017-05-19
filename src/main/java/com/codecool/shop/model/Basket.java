@@ -42,7 +42,7 @@ public class Basket {
         for (BasketItem item : this.getItems()) {
             value += item.getValue();
         }
-        return value;
+        return Math.round(value*100.0)/100.0F;
     }
 
     public String getCurrency() {
