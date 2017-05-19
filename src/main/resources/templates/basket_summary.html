@@ -1,10 +1,29 @@
 <!doctype html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <body>
 <div th:fragment="basket">
+    <div class="well well-sm">
+        <table class="table table-condensed">
+            <tbody>
+            <tr>
+                <th>Products in basket</th>
+                <td th:text="${basket.getItems().size()}">size</td>
+            </tr>
+            <tr>
+                <th>Total quantity</th>
+                <td th:text="${basket.getTotalCount()}">count</td>
+            </tr>
+            <tr>
+                <th>Total value</th>
+                <td th:text="${basket.getTotalValue()} + ' ' + ${basket.getCurrency()}">total</td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
     <div><a class="btn btn-primary" href="/basket">Basket</a></div>
 
-    <ul class="list-group" >
+    <ul class="list-group">
         <li th:each="item,iterStat : ${basket.getItems()}" class="list-group-item" th:inline="text">
             [[${item.getProduct().getName()}]]
 
@@ -12,11 +31,6 @@
 
         </li>
     </ul>
-    <div class="well">
-        <div th:text="'Products in basket '+${basket.getItems().size()}"></div>
-        <div th:text="'Total quantity '+${basket.getTotalCount()}"></div>
-        <div th:text="'Total value '+${basket.getTotalValue()} + ' ' + ${basket.getCurrency()}"></div>
-    </div>
 </div>
 </body>
 </html>

@@ -9,12 +9,16 @@ body {
 }
 
 .container-fluid {
-    margin-left: 100px !important;
+    margin-left: 70px !important;
     margin-right: 100px !important;
 }
 
 #products input {
-    width: 70px;
+    width: 40px;
+}
+
+th {
+    font-weight: normal;
 }
 
 .glyphicon {
@@ -22,7 +26,8 @@ body {
 }
 
 .thumbnail {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    margin-left: -20px;
     padding: 0px;
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
