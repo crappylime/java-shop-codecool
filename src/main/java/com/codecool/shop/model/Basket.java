@@ -1,7 +1,6 @@
 package com.codecool.shop.model;
 
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.List;
 
 public class Basket {

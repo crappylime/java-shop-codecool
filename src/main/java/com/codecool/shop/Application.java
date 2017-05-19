@@ -96,7 +96,7 @@ public class Application {
         String[] files = {
                 prepareQuery("productsData.sql"),
                 prepareQuery("categoriesData.sql"),
-                prepareQuery("suppliersData.sql") };
+                prepareQuery("suppliersData.sql")};
         for (String file : files) {
             for (String line : file.split(";")) {
                 statement.execute(line);
