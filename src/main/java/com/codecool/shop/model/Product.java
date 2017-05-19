@@ -38,6 +38,7 @@ public class Product extends BaseModel {
     }
 
     public void setPrice(float price, String currency) {
+        this.defaultPrice = price;
         this.defaultCurrency = Currency.getInstance("PLN");
     }
 
