@@ -1,0 +1,49 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head th:replace="base :: common_header">
+</head>
+
+<body>
+
+<div th:replace="navbar :: navbar"></div>
+
+<div class="container">
+    <div class="well-sm">
+        <p class="lead text-center">Basket</p>
+    </div>
+
+
+    <div id="basket" class="container">
+
+        <table class="table-striped" width="100%">
+            <tr>
+                <th>Photo</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Overall</th>
+            </tr>
+            <tr th:each="item,iterStat : ${items}">
+                <td><img width="100px" class="img-thumbnail" src="http://placehold.it/400x250/000/fff"
+                         th:attr="src='/img/product_' + ${item.getProduct().id} + '.jpg'" alt=""/></td>
+                <td th:text="${item.getProduct().getName()}">Name</td>
+                <td th:text="${item.getProduct().getPrice()}">10 PLN</td>
+                <td th:text="${item.getQuantity()}">3</td>
+                <td th:text="${item.getValue()} + ' ' + ${item.getProduct().getDefaultCurrency()}">30 PLN</td>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+                <td th:text="'Total quantity ' + ${basket.getTotalCount()}">Total quantity</td>
+                <td th:text="'Total value ' + ${basket.getTotalValue()} + ' ' + ${basket.getCurrency()}">Total value
+                </td>
+
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+<div th:replace="footer :: copy"></div>
+
+</body>
+</html>

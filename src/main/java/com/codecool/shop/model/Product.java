@@ -18,7 +18,7 @@ public class Product extends BaseModel {
     }
 
     public float getDefaultPrice() {
-        return defaultPrice;
+        return Math.round(defaultPrice * 100.0) / 100.0F;
     }
 
     public void setDefaultPrice(float defaultPrice) {
@@ -39,7 +39,7 @@ public class Product extends BaseModel {
 
     public void setPrice(float price, String currency) {
         this.defaultPrice = price;
-        this.defaultCurrency = Currency.getInstance(currency);
+        this.defaultCurrency = Currency.getInstance("PLN");
     }
 
     public ProductCategory getProductCategory() {

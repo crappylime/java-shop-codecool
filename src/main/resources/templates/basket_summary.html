@@ -1,0 +1,36 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<body>
+<div th:fragment="basket">
+    <div class="well well-sm">
+        <table class="table table-condensed">
+            <tbody>
+            <tr>
+                <th>Products in basket</th>
+                <td th:text="${basket.getItems().size()}">size</td>
+            </tr>
+            <tr>
+                <th>Total quantity</th>
+                <td th:text="${basket.getTotalCount()}">count</td>
+            </tr>
+            <tr>
+                <th>Total value</th>
+                <td th:text="${basket.getTotalValue()} + ' ' + ${basket.getCurrency()}">total</td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <div><a class="btn btn-primary" href="/basket">Basket</a></div>
+
+    <ul class="list-group">
+        <li th:each="item,iterStat : ${basket.getItems()}" class="list-group-item" th:inline="text">
+            [[${item.getProduct().getName()}]]
+
+            <span class="badge" th:text="${item.getQuantity()}">14</span>
+
+        </li>
+    </ul>
+</div>
+</body>
+</html>
