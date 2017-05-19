@@ -1,0 +1,57 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<body>
+<div th:fragment="navbar">
+    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse bg-faded">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Codecool Shop</a>
+            </div>
+            <form class="navbar-form navbar-left" id="search_box" action="/products"
+                  onsubmit="checkLength(this.href); return false">
+                <div class="form-group">
+                    <input type="text" name="query" id="searchbox" class="form-control"
+                           placeholder="Search for product"/>
+                </div>
+                <button type="submit" class="btn btn-default">search</button>
+                <span id="length_error" style="display: none; color:red">Minimum 3 chars. Asshole!!!</span>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/">Show all products</a></li>
+                <li><a href="/products/new">Add new product</a></li>
+                <div class="btn-group">
+                    <div class="btn-group" th:if="${categories}">
+                        <button type="button" class="btn btn-default dropdown-toggle navbar-btn" data-toggle="dropdown">
+                            Category <span class="caret"></span></button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li th:each="cat,iterStat : ${categories}">
+                                <form action="/products" method="get">
+                                    <button class="btn btn-md btn-block" th:text="${cat.name}" th:value="${cat.id}"
+                                            name="category_id" type="submit">
+                                        Category name
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="btn-group" th:if="${suppliers}">
+                        <button type="button" class="btn btn-default dropdown-toggle navbar-btn" data-toggle="dropdown">
+                            Supplier <span class="caret"></span></button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li th:each="sup,iterStat : ${suppliers}">
+                                <form action="/products" method="get">
+                                    <button class="btn btn-md btn-block" th:text="${sup.name}" th:value="${sup.id}"
+                                            name="supplier_id" type="submit">
+                                        Supplier name
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </ul>
+        </div>
+    </nav>
+</div>
+</body>
+</html>
