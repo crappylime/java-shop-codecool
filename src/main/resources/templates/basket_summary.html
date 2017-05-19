@@ -4,7 +4,7 @@
 <div th:fragment="basket">
     <div><a class="btn btn-primary" href="/basket">Basket</a></div>
 
-    <ul class="list-group" >
+    <ul class="list-group">
         <li th:each="item,iterStat : ${basket.getItems()}" class="list-group-item" th:inline="text">
             [[${item.getProduct().getName()}]]
 

@@ -3,7 +3,6 @@ package com.codecool.shop;
 import com.codecool.shop.controller.BasketController;
 import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.model.Basket;
-import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.shutdownHook.ShutdownHook;
 import spark.Request;
 import spark.Response;

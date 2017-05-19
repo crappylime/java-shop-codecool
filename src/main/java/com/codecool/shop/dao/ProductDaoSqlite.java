@@ -40,7 +40,7 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
         SupplierDao supplierDao = new SupplierDaoSqlite();
 
         try {
-            PreparedStatement statement = getConnection().prepareStatement("select * from products where id=(?)");
+            PreparedStatement statement = getConnection().prepareStatement("SELECT * FROM products WHERE id=(?)");
             statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
 
