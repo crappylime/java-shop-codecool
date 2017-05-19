@@ -23,23 +23,22 @@ public class ProductController extends BaseController {
         List<ProductCategory> categories = productCategoryDao.getAll();
         List<Supplier> suppliers = supplierDao.getAll();
 
-        if (!(req.queryParams("category_id") == null)) {
+        if (req.queryParams("category_id") != null) {
             ProductCategory category = productCategoryDao.find(Integer.parseInt(req.queryParams("category_id")));
             products = productDao.getBy(category);
             params.put("category", category);
         }
-        if (!(req.queryParams("supplier_id") == null)) {
+        if (req.queryParams("supplier_id") != null) {
             Supplier supplier = supplierDao.find(Integer.parseInt(req.queryParams("supplier_id")));
             products = productDao.getBy(supplier);
             params.put("supplier", supplier);
         }
-        if (!(req.queryParams("query") == null)) {
+        if (req.queryParams("query") != null) {
             products = productDao.getBy(req.queryParams("query"));
         }
         params.put("categories", categories);
         params.put("suppliers", suppliers);
         params.put("products", products);
-
         params.put("basket", req.session().attribute("basket"));
 
         ModelAndView modelAndView = new ModelAndView(params, "product/index");
