@@ -166,7 +166,7 @@ public class Application {
         get("/products", productController::index);
         get("/products/new", productController::add);
         post("/products/new", productController::add);
-        post("/products/:id/add_to_cart", basketController::addToCart);
+        post("/products/:id/add_to_cart", basketController::addToCartAction);
         get("/basket", basketController::show);
     }
 }
