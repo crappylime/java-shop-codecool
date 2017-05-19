@@ -163,7 +163,7 @@ public class Application {
             res.redirect("/products");
             return null;
         });
-        get("/products", productController::showList);
+        get("/products", productController::index);
         get("/products/new", productController::add);
         post("/products/new", productController::add);
         post("/products/:id/add_to_cart", basketController::addToCart);
