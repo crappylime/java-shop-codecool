@@ -9,7 +9,7 @@ public class ShutdownHook extends Thread {
     @Override
     public void run() {
         try {
-            Application.getApp().getConnection().close();
+            Application.getApp().getConnector().getConnection().close();
             System.out.println("DB connection closed safely");
             System.out.println("Bye bye!");
         } catch (SQLException e) {
