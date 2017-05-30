@@ -46,6 +46,7 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
 
             if (rs.next()) {
                 product = new Product(
+                        rs.getInt("id"),
                         rs.getString("name"),
                         rs.getFloat("default_price"),
                         rs.getString("currency"),
@@ -53,7 +54,6 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
                         productCategoryDao.find(rs.getInt("category_id")),
                         supplierDao.find(rs.getInt("supplier_id"))
                 );
-                product.setId(rs.getInt("id"));
             }
         } catch (SQLException e) {
             System.out.println("Connect to DB failed");
