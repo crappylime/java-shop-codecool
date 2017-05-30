@@ -22,11 +22,11 @@ public class ProductCategoryDaoSqlite extends BaseDao implements ProductCategory
 
             if (rs.next()) {
                 category = new ProductCategory(
+                        rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("description"),
                         rs.getString("department")
                 );
-                category.setId(rs.getInt("id"));
             }
         } catch (SQLException e) {
             System.out.println("Connect to DB failed");
