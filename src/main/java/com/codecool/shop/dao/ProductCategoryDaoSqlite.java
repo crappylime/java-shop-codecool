@@ -44,11 +44,11 @@ public class ProductCategoryDaoSqlite extends BaseDao implements ProductCategory
             ResultSet rs = statement.executeQuery("SELECT * FROM categories");
             while (rs.next()) {
                 ProductCategory category = new ProductCategory(
+                        rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("description"),
                         rs.getString("department")
                 );
-                category.setId(rs.getInt("id"));
                 categories.add(category);
             }
         } catch (SQLException e) {
