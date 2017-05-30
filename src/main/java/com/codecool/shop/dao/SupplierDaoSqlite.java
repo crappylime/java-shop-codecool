@@ -22,10 +22,10 @@ public class SupplierDaoSqlite extends BaseDao implements SupplierDao {
 
             if (rs.next()) {
                 supplier = new Supplier(
+                        rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("description")
                 );
-                supplier.setId(rs.getInt("id"));
             }
         } catch (SQLException e) {
             System.out.println("Connect to DB failed");
