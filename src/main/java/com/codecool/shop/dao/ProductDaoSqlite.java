@@ -131,6 +131,7 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
 
             while (rs.next()) {
                 Product product = new Product(
+                        rs.getInt("id"),
                         rs.getString("name"),
                         rs.getFloat("default_price"),
                         "PLN",
@@ -138,7 +139,6 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
                         productCategoryDao.find(rs.getInt("category_id")),
                         supplierDao.find(rs.getInt("supplier_id"))
                 );
-                product.setId(rs.getInt("id"));
                 products.add(product);
             }
         } catch (SQLException e) {
