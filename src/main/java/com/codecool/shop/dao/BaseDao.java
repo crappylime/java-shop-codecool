@@ -8,7 +8,7 @@ abstract class BaseDao {
     private Connection connection;
 
     BaseDao() {
-        Connection connection = Application.getApp().getConnection();
+        Connection connection = Application.getApp().getConnector().getConnection();
         this.setConnection(connection);
     }
 
@@ -17,6 +17,6 @@ abstract class BaseDao {
     }
 
     Connection getConnection() {
-        return connection;
+        return this.connection;
     }
 }
