@@ -2,14 +2,17 @@ package com.codecool.shop.dao;
 
 import com.codecool.shop.model.Supplier;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SupplierDaoSqlite extends BaseDao implements SupplierDao {
+    public SupplierDaoSqlite() {
+    }
+
+    public SupplierDaoSqlite(Connection connection) {
+        super(connection);
+    }
 
     @Override
     public Supplier find(int id) {
