@@ -2,6 +2,7 @@ package com.codecool.shop;
 
 import com.codecool.shop.controller.BasketController;
 import com.codecool.shop.controller.ProductController;
+import com.codecool.shop.dao.SQLiteJDBCConnector;
 import com.codecool.shop.model.Basket;
 import com.codecool.shop.shutdownHook.ShutdownHook;
 import spark.Request;
@@ -19,14 +20,19 @@ import java.util.Objects;
 import static spark.Spark.*;
 
 public class Application {
-    private Connection connection;
     private static Application app;
     private ProductController productController;
     private BasketController basketController;
+    private SQLiteJDBCConnector connector;
+
+    public SQLiteJDBCConnector getConnector() {
+        return this.connector;
+    }
 
     private Application() {
+        connector = new SQLiteJDBCConnector();
         try {
-            this.connectToDb();
+            connector.connectToDb();
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Application initialization failed...");
@@ -45,15 +51,15 @@ public class Application {
                 new Application();
                 if (args.length > 0) {
                     if (Objects.equals(args[0], "--init-db")) {
-                        app.dropTables();
-                        app.createTables();
-                        app.fillTables();
+                        app.connector.dropTables();
+                        app.connector.createTables();
+                        app.connector.fillTables();
                     } else if (Objects.equals(args[0], "--migrate-db")) {
-                        app.createTables();
+                        app.connector.createTables();
                     }
                 }
                 Integer requiredTablesCount = 4;
-                if (app.tablesCounter() == requiredTablesCount) {
+                if (app.connector.tablesCounter() == requiredTablesCount) {
                     exception(Exception.class, (e, req, res) -> e.printStackTrace());
                     staticFileLocation("/public");
                     port(8888);
@@ -70,83 +76,7 @@ public class Application {
         }
     }
 
-    private void connectToDb() throws SQLException {
-        System.out.println("Connection to DB...");
-        this.connection = DriverManager.getConnection("jdbc:sqlite:src/main/resources/database.db");
-    }
 
-    private void dropTables() throws SQLException {
-        Statement statement = connection.createStatement();
-        List<String> tables = new ArrayList<>();
-
-        ResultSet rs = statement.executeQuery("" +
-                "SELECT name FROM sqlite_master WHERE type='table' AND name!='sqlite_sequence'");
-        while (rs.next()) {
-            tables.add(rs.getString("name"));
-        }
-        for (String table : tables) {
-            statement.execute("DROP TABLE '" + table + "'");
-        }
-    }
-
-    private void createTables() throws SQLException {
-        Statement statement = connection.createStatement();
-        statement.execute(prepareQuery("products.sql"));
-        statement.execute(prepareQuery("categories.sql"));
-        statement.execute(prepareQuery("suppliers.sql"));
-    }
-
-    private void fillTables() throws SQLException {
-        Statement statement = connection.createStatement();
-        String[] files = {
-                prepareQuery("productsData.sql"),
-                prepareQuery("categoriesData.sql"),
-                prepareQuery("suppliersData.sql")};
-        for (String file : files) {
-            for (String line : file.split(";")) {
-                statement.execute(line);
-            }
-        }
-    }
-
-    private Integer tablesCounter() throws SQLException {
-        Integer tablesCounter = 0;
-        List<String> requiredTables = new ArrayList<>();
-        requiredTables.add("sqlite_sequence");
-        requiredTables.add("products");
-        requiredTables.add("categories");
-        requiredTables.add("suppliers");
-        Statement statement = connection.createStatement();
-        ResultSet rs = statement.executeQuery("SELECT name FROM sqlite_master WHERE type='table'");
-        while (rs.next()) {
-            if (requiredTables.contains(rs.getString("name"))) {
-                tablesCounter++;
-            }
-        }
-        return tablesCounter;
-    }
-
-    private String prepareQuery(String fileName) {
-        StringBuilder sb = new StringBuilder();
-        try {
-            BufferedReader bufferedReader = new BufferedReader(
-                    new FileReader("src/main/resources/sql/" + fileName)
-            );
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                sb.append(line);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return sb.toString();
-    }
-
-    public Connection getConnection() {
-        return connection;
-    }
 
     public static Application getApp() {
         return app;
