@@ -16,7 +16,7 @@ abstract class BaseDao {
         this.setConnection(connection);
     }
 
-    public void setConnection(Connection connection) {
+    private void setConnection(Connection connection) {
         this.connection = connection;
     }
 
