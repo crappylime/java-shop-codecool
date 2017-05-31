@@ -3,11 +3,6 @@ package com.codecool.shop.model;
 public class ProductCategory extends BaseModel {
     private String department;
 
-    public ProductCategory(String name, String description, String department) {
-        super(name, description);
-        this.department = department;
-    }
-
     public ProductCategory(int id, String name, String description, String department) {
         super(id, name, description);
         this.department = department;
