@@ -17,12 +17,23 @@ public class Product extends BaseModel {
         this.setProductCategory(productCategory);
     }
 
+    public Product(int id, String name, float defaultPrice, String currencyString, String description, ProductCategory productCategory, Supplier supplier) {
+        super(id, name, description);
+        this.setPrice(defaultPrice, currencyString);
+        this.setSupplier(supplier);
+        this.setProductCategory(productCategory);
+    }
+
     public float getDefaultPrice() {
         return Math.round(defaultPrice * 100.0) / 100.0F;
     }
 
     public void setDefaultPrice(float defaultPrice) {
-        this.defaultPrice = defaultPrice;
+        if (defaultPrice > 0) {
+            this.defaultPrice = defaultPrice;
+        } else {
+            throw new IllegalArgumentException("Price can't be lower than zero");
+        }
     }
 
     public Currency getDefaultCurrency() {
@@ -38,8 +49,12 @@ public class Product extends BaseModel {
     }
 
     public void setPrice(float price, String currency) {
-        this.defaultPrice = price;
-        this.defaultCurrency = Currency.getInstance("PLN");
+        if (price > 0) {
+            this.defaultPrice = price;
+            this.defaultCurrency = Currency.getInstance("PLN");
+        } else {
+            throw new IllegalArgumentException("Price can't be lower than zero");
+        }
     }
 
     public ProductCategory getProductCategory() {
@@ -64,7 +79,7 @@ public class Product extends BaseModel {
     public String toString() {
         return String.format("id: %1$d, " +
                         "name: %2$s, " +
-                        "defaultPrice: %3$f, " +
+                        "defaultPrice: %3$s, " + // f returns 7.00000 and we need 7.0
                         "defaultCurrency: %4$s, " +
                         "productCategory: %5$s, " +
                         "supplier: %6$s",
