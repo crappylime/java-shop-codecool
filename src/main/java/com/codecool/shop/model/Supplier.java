@@ -2,10 +2,6 @@ package com.codecool.shop.model;
 
 public class Supplier extends BaseModel {
 
-    public Supplier(String name, String description) {
-        super(name, description);
-    }
-
     public Supplier(int id, String name, String description) {
         super(id, name, description);
     }
