@@ -8,17 +8,12 @@ import com.codecool.shop.shutdownHook.ShutdownHook;
 import spark.Request;
 import spark.Response;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.management.InstanceAlreadyExistsException;
+import java.sql.SQLException;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import static spark.Spark.*;
-import static spark.Spark.path;
 
 public class Application {
     private static Application app;
@@ -32,48 +27,38 @@ public class Application {
 
     private Application() {
         connector = new SQLiteJDBCConnector();
-        try {
-            connector.connectToDb();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Application initialization failed...");
-        }
+        connector.connectToDb();
         app = this;
         this.productController = new ProductController();
         this.basketController = new BasketController();
     }
 
-    public static void run(String[] args) {
+    public static void run(String[] args) throws NoSuchElementException, InstanceAlreadyExistsException {
         System.out.println("Initializing application...");
         Runtime.getRuntime().addShutdownHook(new ShutdownHook());
 
         if (app == null) {
-            try {
-                new Application();
-                if (args.length > 0) {
-                    if (Objects.equals(args[0], "--init-db")) {
-                        app.connector.dropTables();
-                        app.connector.createTables();
-                        app.connector.fillTables();
-                    } else if (Objects.equals(args[0], "--migrate-db")) {
-                        app.connector.createTables();
-                    }
+            new Application();
+            if (args.length > 0) {
+                if (Objects.equals(args[0], "--init-db")) {
+                    app.connector.dropTables();
+                    app.connector.createTables();
+                    app.connector.fillTables();
+                } else if (Objects.equals(args[0], "--migrate-db")) {
+                    app.connector.createTables();
                 }
-                Integer requiredTablesCount = 4;
-                if (app.connector.tablesCounter() == requiredTablesCount) {
-                    exception(Exception.class, (e, req, res) -> e.printStackTrace());
-                    staticFileLocation("/public");
-                    port(8888);
-                    app.dispatchRoutes();
-                } else {
-                    System.out.println("Database missing tables...");
-                }
-            } catch (SQLException e) {
-                System.out.println("Application initialization failed...");
-                e.printStackTrace();
+            }
+            Integer requiredTablesCount = 4;
+            if (app.connector.tablesCounter() == requiredTablesCount) {
+                exception(Exception.class, (e, req, res) -> e.printStackTrace());
+                staticFileLocation("/public");
+                port(8888);
+                app.dispatchRoutes();
+            } else {
+                throw new NoSuchElementException("Database missing tables...");
             }
         } else {
-            System.out.println("Application already running!");
+            throw new InstanceAlreadyExistsException("Application already running!");
         }
     }
 
