@@ -13,14 +13,6 @@ public class ProductCategory extends BaseModel {
         this.department = department;
     }
 
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
     public String toString() {
         return String.format(
                 "id: %1$d," +
