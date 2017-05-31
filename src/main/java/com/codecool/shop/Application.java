@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static spark.Spark.*;
+import static spark.Spark.path;
 
 public class Application {
     private static Application app;
@@ -63,7 +64,7 @@ public class Application {
                     exception(Exception.class, (e, req, res) -> e.printStackTrace());
                     staticFileLocation("/public");
                     port(8888);
-                    app.routes();
+                    app.dispatchRoutes();
                 } else {
                     System.out.println("Database missing tables...");
                 }
@@ -82,21 +83,28 @@ public class Application {
         return app;
     }
 
-    private void routes() {
-
-        before((request, response) -> {
-            if (request.session().isNew()) {
-                request.session().attribute("basket", new Basket());
-            }
+    private void dispatchRoutes() {
+        path("/", () -> {
+            before("/*", (request, response) -> {
+                if (request.session().isNew()) {
+                    request.session().attribute("basket", new Basket());
+                }
+            });
+            path("/", () -> {
+                get("", (Request req, Response res) -> {
+                    res.redirect("/products");
+                    return null;
+                });
+            });
+            path("/products", () -> {
+                get("", productController::index);
+                get("/new", productController::add);
+                post("/new", productController::add);
+                post("/:id/add_to_cart", basketController::addToCartAction);
+            });
+            path("/basket", () -> {
+                get("", basketController::show);
+            });
         });
-        get("/", (Request req, Response res) -> {
-            res.redirect("/products");
-            return null;
-        });
-        get("/products", productController::index);
-        get("/products/new", productController::add);
-        post("/products/new", productController::add);
-        post("/products/:id/add_to_cart", basketController::addToCartAction);
-        get("/basket", basketController::show);
     }
 }
