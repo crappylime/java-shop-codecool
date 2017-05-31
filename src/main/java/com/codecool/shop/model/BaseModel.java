@@ -9,22 +9,23 @@ public class BaseModel {
     protected String name;
     protected String description;
 
-    public BaseModel(String name) {
+    BaseModel(String name) {
         this.name = name;
     }
 
-    public BaseModel(String name, String description) {
+    BaseModel(String name, String description) {
         this.name = name;
         this.description = description;
     }
 
+    BaseModel(int id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
