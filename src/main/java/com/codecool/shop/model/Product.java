@@ -37,8 +37,12 @@ public class Product extends BaseModel {
     }
 
     private void setPrice(float price, String currency) {
-        this.defaultPrice = price;
-        this.defaultCurrency = Currency.getInstance("PLN");
+        if (price > 0) {
+            this.defaultPrice = price;
+            this.defaultCurrency = Currency.getInstance("PLN");
+        } else {
+            throw new IllegalArgumentException("Price can't be lower than zero");
+        }
     }
 
     public ProductCategory getProductCategory() {
