@@ -11,6 +11,7 @@ import java.util.List;
 public class SQLiteJDBCConnector {
     private Connection connection;
     private String databaseFilePath = "jdbc:sqlite:src/main/resources/database.db";
+    private SQLFilesPaths sqlFilesPaths;
 
     public Connection getConnection() {
         return this.connection;
@@ -19,6 +20,10 @@ public class SQLiteJDBCConnector {
     //method made for dependency injection
     public void setDatabaseFilePath(String databaseFilePath) {
         this.databaseFilePath = databaseFilePath;
+    }
+
+    public void setSqlFiles(SQLFilesPaths sqlFiles) {
+        this.sqlFilesPaths = sqlFiles;
     }
 
     public void connectToDb() {
