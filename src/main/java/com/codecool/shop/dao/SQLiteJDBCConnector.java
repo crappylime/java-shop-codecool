@@ -69,6 +69,7 @@ public class SQLiteJDBCConnector {
             for (String file : files) {
                 for (String line : file.split(";")) {
                     statement.execute(line);
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
