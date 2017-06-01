@@ -21,58 +21,77 @@ public class SQLiteJDBCConnector {
         this.databaseFilePath = databaseFilePath;
     }
 
-    public void connectToDb() throws SQLException {
-        System.out.println("Connection to DB...");
-        this.connection = DriverManager.getConnection(databaseFilePath);
-    }
-
-    public void dropTables() throws SQLException {
-        Statement statement = connection.createStatement();
-        List<String> tables = new ArrayList<>();
-
-        ResultSet rs = statement.executeQuery("" +
-                "SELECT name FROM sqlite_master WHERE type='table' AND name!='sqlite_sequence'");
-        while (rs.next()) {
-            tables.add(rs.getString("name"));
-        }
-        for (String table : tables) {
-            statement.execute("DROP TABLE '" + table + "'");
+    public void connectToDb() {
+        try {
+            System.out.println("Connection to DB...");
+            this.connection = DriverManager.getConnection(databaseFilePath);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public void createTables() throws SQLException {
-        Statement statement = connection.createStatement();
-        statement.execute(prepareQuery(SQLFiles.PRODUCTS.getPath()));
-        statement.execute(prepareQuery(SQLFiles.CATEGORIES.getPath()));
-        statement.execute(prepareQuery(SQLFiles.SUPPLIERS.getPath()));
-    }
+    public void dropTables() {
+        try {
+            Statement statement = connection.createStatement();
+            List<String> tables = new ArrayList<>();
 
-    public void fillTables() throws SQLException {
-        Statement statement = connection.createStatement();
-        String[] files = {
-                prepareQuery(SQLFiles.PRODUCTS_DATA.getPath()),
-                prepareQuery(SQLFiles.CATEGORIES_DATA.getPath()),
-                prepareQuery(SQLFiles.SUPPLIERS_DATA.getPath())};
-        for (String file : files) {
-            for (String line : file.split(";")) {
-                statement.execute(line);
+            ResultSet rs = statement.executeQuery("" +
+                    "SELECT name FROM sqlite_master WHERE type='table' AND name!='sqlite_sequence'");
+            while (rs.next()) {
+                tables.add(rs.getString("name"));
             }
+            for (String table : tables) {
+                statement.execute("DROP TABLE '" + table + "'");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public Integer tablesCounter() throws SQLException {
+    public void createTables() {
+        try {
+            Statement statement = connection.createStatement();
+            statement.execute(prepareQuery(SQLFiles.PRODUCTS.getPath()));
+            statement.execute(prepareQuery(SQLFiles.CATEGORIES.getPath()));
+            statement.execute(prepareQuery(SQLFiles.SUPPLIERS.getPath()));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void fillTables() {
+        try {
+            Statement statement = connection.createStatement();
+            String[] files = {
+                    prepareQuery(SQLFiles.PRODUCTS_DATA.getPath()),
+                    prepareQuery(SQLFiles.CATEGORIES_DATA.getPath()),
+                    prepareQuery(SQLFiles.SUPPLIERS_DATA.getPath())};
+            for (String file : files) {
+                for (String line : file.split(";")) {
+                    statement.execute(line);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Integer tablesCounter() {
         Integer tablesCounter = 0;
         List<String> requiredTables = new ArrayList<>();
         requiredTables.add("sqlite_sequence");
         requiredTables.add("products");
         requiredTables.add("categories");
         requiredTables.add("suppliers");
-        Statement statement = connection.createStatement();
-        ResultSet rs = statement.executeQuery("SELECT name FROM sqlite_master WHERE type='table'");
-        while (rs.next()) {
-            if (requiredTables.contains(rs.getString("name"))) {
-                tablesCounter++;
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT name FROM sqlite_master WHERE type='table'");
+            while (rs.next()) {
+                if (requiredTables.contains(rs.getString("name"))) {
+                    tablesCounter++;
+                }
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return tablesCounter;
     }
