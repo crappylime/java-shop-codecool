@@ -13,7 +13,6 @@ public class SQLiteJDBCConnector {
     private String databaseFilePath = "jdbc:sqlite:src/main/resources/database.db";
 
     public Connection getConnection() {
-        System.out.println(this.connection);
         return this.connection;
     }
 
