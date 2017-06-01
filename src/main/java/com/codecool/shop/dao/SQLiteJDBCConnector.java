@@ -10,7 +10,7 @@ import java.util.List;
 
 public class SQLiteJDBCConnector {
     private Connection connection;
-    private String databaseFilePath = SQLFiles.DATABASE_FILE.toString();
+    private String databaseFilePath = "jdbc:sqlite:src/main/resources/database.db";
 
     public Connection getConnection() {
         return this.connection;
