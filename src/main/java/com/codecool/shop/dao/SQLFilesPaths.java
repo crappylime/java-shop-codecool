@@ -1,6 +1,6 @@
 package com.codecool.shop.dao;
 
-public enum SQLFiles {
+public enum SQLFilesPaths {
     PRODUCTS_DATA("src/main/resources/sql/productsData.sql"),
     PRODUCTS("src/main/resources/sql/products.sql"),
     CATEGORIES_DATA("src/main/resources/sql/categoriesData.sql"),
@@ -10,7 +10,7 @@ public enum SQLFiles {
 
     private final String path;
 
-    SQLFiles(String path) {
+    SQLFilesPaths(String path) {
         this.path = path;
     }
 

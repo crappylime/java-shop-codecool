@@ -11,6 +11,7 @@ import java.util.List;
 public class SQLiteJDBCConnector {
     private Connection connection;
     private String databaseFilePath = "jdbc:sqlite:src/main/resources/database.db";
+    private SQLFilesPaths sqlFilesPaths;
 
     public Connection getConnection() {
         return this.connection;
@@ -19,6 +20,10 @@ public class SQLiteJDBCConnector {
     //method made for dependency injection
     public void setDatabaseFilePath(String databaseFilePath) {
         this.databaseFilePath = databaseFilePath;
+    }
+
+    public void setSqlFiles(SQLFilesPaths sqlFiles) {
+        this.sqlFilesPaths = sqlFiles;
     }
 
     public void connectToDb() {
@@ -51,9 +56,9 @@ public class SQLiteJDBCConnector {
     public void createTables() {
         try {
             Statement statement = connection.createStatement();
-            statement.execute(prepareQuery(SQLFiles.PRODUCTS.getPath()));
-            statement.execute(prepareQuery(SQLFiles.CATEGORIES.getPath()));
-            statement.execute(prepareQuery(SQLFiles.SUPPLIERS.getPath()));
+            statement.execute(prepareQuery(SQLFilesPaths.PRODUCTS.getPath()));
+            statement.execute(prepareQuery(SQLFilesPaths.CATEGORIES.getPath()));
+            statement.execute(prepareQuery(SQLFilesPaths.SUPPLIERS.getPath()));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -63,9 +68,9 @@ public class SQLiteJDBCConnector {
         try {
             Statement statement = connection.createStatement();
             String[] files = {
-                    prepareQuery(SQLFiles.PRODUCTS_DATA.getPath()),
-                    prepareQuery(SQLFiles.CATEGORIES_DATA.getPath()),
-                    prepareQuery(SQLFiles.SUPPLIERS_DATA.getPath())};
+                    prepareQuery(SQLFilesPaths.PRODUCTS_DATA.getPath()),
+                    prepareQuery(SQLFilesPaths.CATEGORIES_DATA.getPath()),
+                    prepareQuery(SQLFilesPaths.SUPPLIERS_DATA.getPath())};
             for (String file : files) {
                 for (String line : file.split(";")) {
                     statement.execute(line);
