@@ -8,8 +8,6 @@ import com.codecool.shop.shutdownHook.ShutdownHook;
 import spark.Request;
 import spark.Response;
 
-import javax.management.InstanceAlreadyExistsException;
-import java.sql.SQLException;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
@@ -25,7 +23,7 @@ public class Application {
         return this.connector;
     }
 
-    private Application() {
+    public Application() {
         connector = new SQLiteJDBCConnector();
         connector.connectToDb();
         app = this;
@@ -33,37 +31,38 @@ public class Application {
         this.basketController = new BasketController();
     }
 
-    public static void run(String[] args) throws NoSuchElementException, InstanceAlreadyExistsException {
+    public Application(SQLiteJDBCConnector connector) {
+        this.connector = connector;
+        connector.connectToDb();
+        app = this;
+        this.productController = new ProductController();
+        this.basketController = new BasketController();
+    }
+
+    public void run(String[] args) throws NoSuchElementException {
         System.out.println("Initializing application...");
         Runtime.getRuntime().addShutdownHook(new ShutdownHook());
 
-        if (app == null) {
-            new Application();
-            if (args.length > 0) {
-                if (Objects.equals(args[0], "--init-db")) {
-                    app.connector.dropTables();
-                    app.connector.createTables();
-                    app.connector.fillTables();
-                } else if (Objects.equals(args[0], "--migrate-db")) {
-                    app.connector.createTables();
-                }
+        if (args.length > 0) {
+            if (Objects.equals(args[0], "--init-db")) {
+                app.connector.dropTables();
+                app.connector.createTables();
+                app.connector.fillTables();
+            } else if (Objects.equals(args[0], "--migrate-db")) {
+                app.connector.createTables();
             }
-            Integer requiredTablesCount = 4;
-            if (app.connector.tablesCounter() == requiredTablesCount) {
-                exception(Exception.class, (e, req, res) -> e.printStackTrace());
-                staticFileLocation("/public");
-                port(8888);
-                app.dispatchRoutes();
-            } else {
-                throw new NoSuchElementException("Database missing tables...");
-            }
+        }
+        Integer requiredTablesCount = 4;
+        if (app.getConnector().tablesCounter() == requiredTablesCount) {
+            exception(Exception.class, (e, req, res) -> e.printStackTrace());
+            staticFileLocation("/public");
+            port(8888);
+            app.dispatchRoutes();
         } else {
-            throw new InstanceAlreadyExistsException("Application already running!");
+            throw new NoSuchElementException("Database missing tables...");
         }
     }
-
-
-
+    
     public static Application getApp() {
         return app;
     }
