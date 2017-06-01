@@ -51,9 +51,9 @@ public class SQLiteJDBCConnector {
     public void createTables() {
         try {
             Statement statement = connection.createStatement();
-            statement.execute(prepareQuery("products.sql"));
-            statement.execute(prepareQuery("categories.sql"));
-            statement.execute(prepareQuery("suppliers.sql"));
+            statement.execute(prepareQuery(SQLFiles.PRODUCTS.getPath()));
+            statement.execute(prepareQuery(SQLFiles.CATEGORIES.getPath()));
+            statement.execute(prepareQuery(SQLFiles.SUPPLIERS.getPath()));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -63,13 +63,12 @@ public class SQLiteJDBCConnector {
         try {
             Statement statement = connection.createStatement();
             String[] files = {
-                    prepareQuery("productsData.sql"),
-                    prepareQuery("categoriesData.sql"),
-                    prepareQuery("suppliersData.sql")};
+                    prepareQuery(SQLFiles.PRODUCTS_DATA.getPath()),
+                    prepareQuery(SQLFiles.CATEGORIES_DATA.getPath()),
+                    prepareQuery(SQLFiles.SUPPLIERS_DATA.getPath())};
             for (String file : files) {
                 for (String line : file.split(";")) {
                     statement.execute(line);
-                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -101,7 +100,7 @@ public class SQLiteJDBCConnector {
         StringBuilder sb = new StringBuilder();
         try {
             BufferedReader bufferedReader = new BufferedReader(
-                    new FileReader("src/main/resources/sql/" + fileName)
+                    new FileReader(fileName)
             );
             String line;
             while ((line = bufferedReader.readLine()) != null) {
