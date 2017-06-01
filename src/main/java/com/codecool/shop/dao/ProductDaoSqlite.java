@@ -28,16 +28,17 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
         this.setSupplierDao(supplierDao);
     }
 
-    public void setProductCategoryDao(ProductCategoryDao productCategoryDao) {
+    private void setProductCategoryDao(ProductCategoryDao productCategoryDao) {
         this.productCategoryDao = productCategoryDao;
     }
 
-    public void setSupplierDao(SupplierDao supplierDao) {
+    private void setSupplierDao(SupplierDao supplierDao) {
         this.supplierDao = supplierDao;
     }
 
     @Override
-    public void add(Product product) {
+    public Integer add(Product product) {
+        Integer result = 0;
         try {
             PreparedStatement statement = getConnection().prepareStatement(
                     "INSERT INTO products (name, description, default_price, currency, category_id, " +
@@ -48,12 +49,13 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
             statement.setString(4, product.getDefaultCurrency().getDisplayName());
             statement.setInt(5, product.getProductCategory().getId());
             statement.setInt(6, product.getSupplier().getId());
-            statement.executeUpdate();
+            result = statement.executeUpdate();
 
         } catch (SQLException e) {
             System.out.println("Connect to DB failed");
             System.out.println(e.getMessage());
         }
+        return result;
     }
 
     @Override
