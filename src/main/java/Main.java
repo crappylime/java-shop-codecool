@@ -1,15 +1,13 @@
 import com.codecool.shop.Application;
 
-import javax.management.InstanceAlreadyExistsException;
 import java.util.NoSuchElementException;
 
 public class Main {
 
     public static void main(String[] args) {
         try {
-            Application.run(args);
-        } catch (InstanceAlreadyExistsException e) {
-            System.out.println(e.getMessage());
+            Application application = new Application();
+            application.run(args);
         } catch (NoSuchElementException e) {
             System.out.println(e.getMessage());
             System.out.println("Try running app with one of these arguments:"
