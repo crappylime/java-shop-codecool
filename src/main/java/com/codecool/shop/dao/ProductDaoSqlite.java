@@ -28,11 +28,11 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
         this.setSupplierDao(supplierDao);
     }
 
-    public void setProductCategoryDao(ProductCategoryDao productCategoryDao) {
+    private void setProductCategoryDao(ProductCategoryDao productCategoryDao) {
         this.productCategoryDao = productCategoryDao;
     }
 
-    public void setSupplierDao(SupplierDao supplierDao) {
+    private void setSupplierDao(SupplierDao supplierDao) {
         this.supplierDao = supplierDao;
     }
 
