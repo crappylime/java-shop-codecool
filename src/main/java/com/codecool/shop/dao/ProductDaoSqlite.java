@@ -14,11 +14,26 @@ import java.util.List;
 
 public class ProductDaoSqlite extends BaseDao implements ProductDao {
 
+    private ProductCategoryDao productCategoryDao;
+    private SupplierDao supplierDao;
+
     public ProductDaoSqlite() {
+        this.setProductCategoryDao(new ProductCategoryDaoSqlite());
+        this.setSupplierDao(new SupplierDaoSqlite());
     }
 
-    public ProductDaoSqlite(Connection connection) {
+    public ProductDaoSqlite(Connection connection, SupplierDao supplierDao, ProductCategoryDao productCategoryDao) {
         super(connection);
+        this.setProductCategoryDao(productCategoryDao);
+        this.setSupplierDao(supplierDao);
+    }
+
+    public void setProductCategoryDao(ProductCategoryDao productCategoryDao) {
+        this.productCategoryDao = productCategoryDao;
+    }
+
+    public void setSupplierDao(SupplierDao supplierDao) {
+        this.supplierDao = supplierDao;
     }
 
     @Override
@@ -44,8 +59,6 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
     @Override
     public Product find(int id) {
         Product product = null;
-        ProductCategoryDao productCategoryDao = new ProductCategoryDaoSqlite();
-        SupplierDao supplierDao = new SupplierDaoSqlite();
 
         try {
             PreparedStatement statement = getConnection().prepareStatement("SELECT * FROM products WHERE id=(?)");
@@ -131,8 +144,6 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
 
     private List<Product> getProducts(PreparedStatement statement) {
         List<Product> products = new ArrayList<>();
-        ProductCategoryDao productCategoryDao = new ProductCategoryDaoSqlite();
-        SupplierDao supplierDao = new SupplierDaoSqlite();
 
         try {
             ResultSet rs = statement.executeQuery();
