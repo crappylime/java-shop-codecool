@@ -10,6 +10,7 @@ import java.util.List;
 
 public class SQLiteJDBCConnector {
     private Connection connection;
+    // "jdbc:postgresql://hostname:port/dbname","username", "password"
     private String databaseFilePath = "jdbc:sqlite:src/main/resources/database.db";
     private SQLFilesPaths sqlFilesPaths;
 
