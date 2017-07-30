@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.mycompany.app</groupId>
-    <artifactId>my-app</artifactId>
+    <artifactId>codecool-shop</artifactId>
     <version>1.0-SNAPSHOT</version>
     <build>
         <plugins>
