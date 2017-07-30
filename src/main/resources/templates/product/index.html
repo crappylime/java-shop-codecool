@@ -11,7 +11,7 @@
     <p class="lead" th:inline="text">
         [[${category.name}]] |
         [[${category.description}]] |
-        [[${category.department}]]
+        [[${category.getDepartment()}]]
     </p>
 </div>
 <div class="text-center well-sm" th:if="${supplier}">
