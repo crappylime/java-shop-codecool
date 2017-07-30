@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS categories
 (
-  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  id          SERIAL PRIMARY KEY,
   name        VARCHAR NOT NULL,
   description TEXT,
   department  VARCHAR NOT NULL

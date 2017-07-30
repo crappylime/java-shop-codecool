@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS products
 (
-  id            INTEGER PRIMARY KEY AUTOINCREMENT,
+  id            SERIAL PRIMARY KEY,
   name          VARCHAR NOT NULL,
   description   TEXT,
   default_price FLOAT   NOT NULL,
