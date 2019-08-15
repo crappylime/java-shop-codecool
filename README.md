@@ -1,5 +1,6 @@
-(Apr 2017 – May 2017)
+# Codecool Shop in Java
 
+(Apr 2017 – May 2017)
 Java SE: 2nd TW week, Project skeleton
 
 ## About
